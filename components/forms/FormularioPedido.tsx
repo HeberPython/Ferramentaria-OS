@@ -45,6 +45,8 @@ export function FormularioPedido() {
     prazo_desejado: '',
   })
   const [arquivos, setArquivos] = useState<File[]>([])
+  const [novoTipoTexto, setNovoTipoTexto] = useState('')
+  const [adicionandoTipo, setAdicionandoTipo] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [resultado, setResultado] = useState<ResultadoCriado | null>(null)
@@ -158,6 +160,8 @@ export function FormularioPedido() {
                   prazo_desejado: '',
                 })
                 setArquivos([])
+                setNovoTipoTexto('')
+                setAdicionandoTipo(false)
               }}
               className="flex-1 border border-gray-300 text-gray-700 text-sm font-semibold py-2.5 px-4 rounded-lg hover:bg-gray-50 transition-colors"
             >
@@ -254,20 +258,70 @@ export function FormularioPedido() {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Tipo de serviço <span className="text-red-500">*</span>
               </label>
-              <select
-                name="tipo_servico"
-                value={form.tipo_servico}
-                onChange={handleChange}
-                required
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600 bg-white"
-              >
-                <option value="">Selecione o tipo de serviço</option>
-                {tiposServico.map((tipo) => (
-                  <option key={tipo} value={tipo}>
-                    {tipo}
-                  </option>
-                ))}
-              </select>
+              {adicionandoTipo ? (
+                <div className="space-y-2">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={novoTipoTexto}
+                      onChange={(e) => setNovoTipoTexto(e.target.value)}
+                      placeholder="Descreva o tipo de serviço..."
+                      autoFocus
+                      className="flex-1 border border-brand-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (novoTipoTexto.trim()) {
+                          setForm((p) => ({ ...p, tipo_servico: novoTipoTexto.trim() }))
+                          setAdicionandoTipo(false)
+                        }
+                      }}
+                      className="px-3 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-medium"
+                    >
+                      Confirmar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setAdicionandoTipo(false); setNovoTipoTexto('') }}
+                      className="px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:bg-gray-50"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    Seu pedido será analisado e o tipo poderá ser ajustado pela ferramentaria.
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  <select
+                    name="tipo_servico"
+                    value={form.tipo_servico}
+                    onChange={(e) => {
+                      if (e.target.value === '__novo__') {
+                        setAdicionandoTipo(true)
+                        setForm((p) => ({ ...p, tipo_servico: '' }))
+                      } else {
+                        handleChange(e)
+                      }
+                    }}
+                    required
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600 bg-white"
+                  >
+                    <option value="">Selecione o tipo de serviço</option>
+                    {tiposServico.map((tipo) => (
+                      <option key={tipo} value={tipo}>{tipo}</option>
+                    ))}
+                    <option value="__novo__">➕ Adicionar novo tipo...</option>
+                  </select>
+                  {form.tipo_servico && !tiposServico.includes(form.tipo_servico) && (
+                    <p className="text-xs text-brand-600 font-medium">
+                      Novo tipo: &quot;{form.tipo_servico}&quot;
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">

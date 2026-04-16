@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { supabaseServer } from '@/lib/supabase-server'
 import { verificarToken } from '@/lib/auth'
-import { enviarNotificacaoStatus } from '@/lib/email'
+import { enviarNotificacaoStatus, enviarNotificacaoAdminStatus } from '@/lib/email'
 import { cookies } from 'next/headers'
 import { Pedido, StatusPedido } from '@/types'
 
@@ -84,7 +84,7 @@ export async function PATCH(
       .select()
       .single()
 
-    // Enviar e-mail de notificação
+    // Enviar e-mails de notificação
     try {
       await enviarNotificacaoStatus(
         pedidoAtualizado as Pedido,
@@ -94,6 +94,17 @@ export async function PATCH(
       )
     } catch (emailErr) {
       console.error('Erro ao enviar e-mail de status:', emailErr)
+    }
+    try {
+      await enviarNotificacaoAdminStatus(
+        pedidoAtualizado as Pedido,
+        statusAnterior,
+        statusNovo,
+        usuario.nome,
+        parsed.data.observacao
+      )
+    } catch (emailErr) {
+      console.error('Erro ao enviar e-mail admin de status:', emailErr)
     }
 
     return NextResponse.json({ pedido: pedidoAtualizado, historico })

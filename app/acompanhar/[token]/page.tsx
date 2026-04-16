@@ -5,6 +5,7 @@ import { Pedido, HistoricoStatus, Comentario, StatusPedido } from '@/types'
 import { STATUS_CONFIG, URGENCIA_CONFIG } from '@/lib/constants'
 import { Comentarios } from '@/components/pedido/Comentarios'
 import { Anexos } from '@/components/pedido/Anexos'
+import { EditarPedido } from '@/components/pedido/EditarPedido'
 
 async function getPedidoPorToken(token: string) {
   const { data, error } = await supabaseServer
@@ -197,6 +198,17 @@ export default async function AcompanharPage({
             })}
           </div>
         </div>
+
+        {/* Editar pedido */}
+        {pedido.status !== 'concluido' && pedido.status !== 'cancelado' && (
+          <EditarPedido
+            pedidoId={pedido.id}
+            token={params.token}
+            descricaoAtual={pedido.descricao}
+            telefoneAtual={pedido.telefone || ''}
+            prazoDesejadoAtual={pedido.prazo_desejado || ''}
+          />
+        )}
 
         {/* Anexos */}
         {anexos.length > 0 && (
