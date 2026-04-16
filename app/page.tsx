@@ -36,13 +36,11 @@ export default async function HomePage() {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-20">
         <div className="max-w-full px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img
-              src="https://scitec.com.br/wp-content/uploads/2023/07/SCiTec-Laboratorio-Logo-150x113.png"
-              alt="SCiTec"
-              className="h-9 w-auto"
-            />
-            <div className="border-l border-gray-200 pl-3">
+            <div className="flex flex-col leading-tight">
+              <span className="text-xs font-bold tracking-widest text-brand-600 uppercase">SCiTec</span>
               <h1 className="text-base font-bold text-gray-900 leading-tight">Ferramentaria</h1>
+            </div>
+            <div className="border-l border-gray-200 pl-3">
               <p className="text-xs text-gray-500">Painel de acompanhamento</p>
             </div>
           </div>
