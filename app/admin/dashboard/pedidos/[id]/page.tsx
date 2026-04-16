@@ -4,6 +4,7 @@ import { supabaseServer } from '@/lib/supabase-server'
 import { Pedido, HistoricoStatus, Comentario, Usuario } from '@/types'
 import { DetalhesPedido } from '@/components/pedido/DetalhesPedido'
 import { Comentarios } from '@/components/pedido/Comentarios'
+import { Anexos } from '@/components/pedido/Anexos'
 
 async function getPedido(id: string): Promise<Pedido | null> {
   const { data, error } = await supabaseServer
@@ -43,6 +44,15 @@ async function getUsuarios(): Promise<Usuario[]> {
   return (data as Usuario[]) || []
 }
 
+async function getAnexos(pedidoId: string) {
+  const { data } = await supabaseServer
+    .from('anexos')
+    .select('*')
+    .eq('pedido_id', pedidoId)
+    .order('criado_em', { ascending: true })
+  return data || []
+}
+
 export const revalidate = 0
 
 export default async function PedidoDetalhePage({
@@ -50,11 +60,12 @@ export default async function PedidoDetalhePage({
 }: {
   params: { id: string }
 }) {
-  const [pedido, historico, comentarios, usuarios] = await Promise.all([
+  const [pedido, historico, comentarios, usuarios, anexos] = await Promise.all([
     getPedido(params.id),
     getHistorico(params.id),
     getComentarios(params.id),
     getUsuarios(),
+    getAnexos(params.id),
   ])
 
   if (!pedido) notFound()
@@ -75,6 +86,15 @@ export default async function PedidoDetalhePage({
         historico={historico}
         usuarios={usuarios}
       />
+
+      {/* Anexos */}
+      <div className="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm p-6 xl:max-w-[calc(66.666%)]">
+        <Anexos
+          pedidoId={pedido.id}
+          anexosIniciais={anexos}
+          isAdmin={true}
+        />
+      </div>
 
       {/* Comentários */}
       <div className="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm p-6 xl:max-w-[calc(66.666%)]">

@@ -4,6 +4,7 @@ import { supabaseServer } from '@/lib/supabase-server'
 import { Pedido, HistoricoStatus, Comentario, StatusPedido } from '@/types'
 import { STATUS_CONFIG, URGENCIA_CONFIG } from '@/lib/constants'
 import { Comentarios } from '@/components/pedido/Comentarios'
+import { Anexos } from '@/components/pedido/Anexos'
 
 async function getPedidoPorToken(token: string) {
   const { data, error } = await supabaseServer
@@ -35,6 +36,15 @@ async function getComentariosPublicos(pedidoId: string): Promise<Comentario[]> {
   return data || []
 }
 
+async function getAnexos(pedidoId: string) {
+  const { data } = await supabaseServer
+    .from('anexos')
+    .select('*')
+    .eq('pedido_id', pedidoId)
+    .order('criado_em', { ascending: true })
+  return data || []
+}
+
 export default async function AcompanharPage({
   params,
 }: {
@@ -43,9 +53,10 @@ export default async function AcompanharPage({
   const pedido = await getPedidoPorToken(params.token)
   if (!pedido) notFound()
 
-  const [historico, comentarios] = await Promise.all([
+  const [historico, comentarios, anexos] = await Promise.all([
     getHistorico(pedido.id),
     getComentariosPublicos(pedido.id),
+    getAnexos(pedido.id),
   ])
 
   const statusConfig = STATUS_CONFIG[pedido.status]
@@ -185,6 +196,17 @@ export default async function AcompanharPage({
             })}
           </div>
         </div>
+
+        {/* Anexos */}
+        {anexos.length > 0 && (
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+            <Anexos
+              pedidoId={pedido.id}
+              anexosIniciais={anexos}
+              isAdmin={false}
+            />
+          </div>
+        )}
 
         {/* Comentários */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
