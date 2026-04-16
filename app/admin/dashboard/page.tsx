@@ -75,8 +75,8 @@ export default async function DashboardPage() {
             label: 'Total de Pedidos',
             value: metricas.total,
             icon: '📋',
-            color: 'text-blue-700',
-            bg: 'bg-blue-50',
+            color: 'text-brand-600',
+            bg: 'bg-brand-50',
           },
           {
             label: 'Recebidos Hoje',
@@ -144,7 +144,7 @@ export default async function DashboardPage() {
             <h2 className="text-sm font-semibold text-gray-700">Pedidos Recentes</h2>
             <Link
               href="/admin/dashboard/tabela"
-              className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+              className="text-xs text-brand-600 hover:text-brand-800 font-medium"
             >
               Ver todos →
             </Link>
@@ -187,10 +187,10 @@ export default async function DashboardPage() {
       <div className="mt-6 grid grid-cols-2 gap-4">
         <Link
           href="/admin/dashboard/kanban"
-          className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:border-blue-300 hover:shadow-md transition-all group"
+          className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:border-brand-300 hover:shadow-md transition-all group"
         >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center text-blue-700 group-hover:bg-blue-100 transition-colors">
+            <div className="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-600 group-hover:bg-brand-100 transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
               </svg>
@@ -204,7 +204,7 @@ export default async function DashboardPage() {
 
         <Link
           href="/admin/dashboard/tabela"
-          className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:border-blue-300 hover:shadow-md transition-all group"
+          className="bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:border-brand-300 hover:shadow-md transition-all group"
         >
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center text-purple-700 group-hover:bg-purple-100 transition-colors">

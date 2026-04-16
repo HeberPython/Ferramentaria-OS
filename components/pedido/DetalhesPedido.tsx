@@ -236,7 +236,7 @@ export function DetalhesPedido({ pedido: pedidoInicial, historico: historicoInic
           <button
             onClick={atualizarStatus}
             disabled={loading || novoStatus === pedido.status}
-            className="w-full bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold py-2 rounded-lg transition-colors disabled:opacity-40"
+            className="w-full bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-2 rounded-lg transition-colors disabled:opacity-40"
           >
             Salvar Status
           </button>
@@ -301,7 +301,7 @@ export function DetalhesPedido({ pedido: pedidoInicial, historico: historicoInic
             {pedido.prazo_definido && (
               <div className="text-sm">
                 <span className="text-gray-500">Definido: </span>
-                <span className="font-medium text-blue-700">{new Date(pedido.prazo_definido + 'T12:00:00').toLocaleDateString('pt-BR')}</span>
+                <span className="font-medium text-brand-600">{new Date(pedido.prazo_definido + 'T12:00:00').toLocaleDateString('pt-BR')}</span>
               </div>
             )}
           </div>

@@ -100,7 +100,7 @@ export function Anexos({ pedidoId, anexosIniciais, isAdmin = false }: AnexosProp
               onChange={(e) => handleUpload(e.target.files)}
               disabled={uploading}
             />
-            <span className="text-xs font-semibold px-3 py-1.5 bg-blue-700 hover:bg-blue-800 text-white rounded-lg transition-colors">
+            <span className="text-xs font-semibold px-3 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg transition-colors">
               {uploading ? 'Enviando...' : '+ Adicionar arquivo'}
             </span>
           </label>
@@ -128,7 +128,7 @@ export function Anexos({ pedidoId, anexosIniciais, isAdmin = false }: AnexosProp
                   href={anexo.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-medium text-blue-700 hover:text-blue-900 hover:underline truncate block"
+                  className="text-sm font-medium text-brand-600 hover:text-brand-800 hover:underline truncate block"
                 >
                   {anexo.nome_original}
                 </a>

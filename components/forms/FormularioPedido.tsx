@@ -118,7 +118,7 @@ export function FormularioPedido() {
 
           <div className="bg-white border border-green-200 rounded-xl p-4 mb-6">
             <p className="text-sm text-gray-500 mb-1">Número do pedido</p>
-            <p className="text-4xl font-bold text-blue-700">
+            <p className="text-4xl font-bold text-brand-600">
               #{String(resultado.numero).padStart(4, '0')}
             </p>
           </div>
@@ -127,7 +127,7 @@ export function FormularioPedido() {
             <p className="text-sm font-medium text-gray-700 mb-2">Link de acompanhamento:</p>
             <a
               href={link}
-              className="text-blue-600 hover:text-blue-800 text-sm break-all underline"
+              className="text-brand-600 hover:text-brand-800 text-sm break-all underline"
             >
               {link}
             </a>
@@ -140,7 +140,7 @@ export function FormularioPedido() {
           <div className="flex gap-3">
             <a
               href={link}
-              className="flex-1 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold py-2.5 px-4 rounded-lg text-center transition-colors"
+              className="flex-1 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-2.5 px-4 rounded-lg text-center transition-colors"
             >
               Acompanhar pedido
             </a>
@@ -181,7 +181,7 @@ export function FormularioPedido() {
         {/* Section 1: Identificação */}
         <div className="p-6 border-b border-gray-100">
           <h2 className="text-base font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <span className="w-6 h-6 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+            <span className="w-6 h-6 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center text-xs font-bold">1</span>
             Identificação
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -196,7 +196,7 @@ export function FormularioPedido() {
                 onChange={handleChange}
                 required
                 placeholder="Ex: Laboratório de Ensaios"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
               />
             </div>
             <div>
@@ -210,7 +210,7 @@ export function FormularioPedido() {
                 onChange={handleChange}
                 required
                 placeholder="Seu nome completo"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
               />
             </div>
             <div>
@@ -224,7 +224,7 @@ export function FormularioPedido() {
                 onChange={handleChange}
                 required
                 placeholder="seu@email.com"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
               />
             </div>
             <div>
@@ -237,7 +237,7 @@ export function FormularioPedido() {
                 value={form.telefone}
                 onChange={handleChange}
                 placeholder="(00) 00000-0000"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
               />
             </div>
           </div>
@@ -246,7 +246,7 @@ export function FormularioPedido() {
         {/* Section 2: Serviço */}
         <div className="p-6 border-b border-gray-100">
           <h2 className="text-base font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <span className="w-6 h-6 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+            <span className="w-6 h-6 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center text-xs font-bold">2</span>
             Detalhes do Serviço
           </h2>
           <div className="space-y-4">
@@ -259,7 +259,7 @@ export function FormularioPedido() {
                 value={form.tipo_servico}
                 onChange={handleChange}
                 required
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600 bg-white"
               >
                 <option value="">Selecione o tipo de serviço</option>
                 {tiposServico.map((tipo) => (
@@ -280,7 +280,7 @@ export function FormularioPedido() {
                 required
                 rows={4}
                 placeholder="Descreva com detalhes o serviço necessário, especificações, materiais envolvidos, etc."
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600 resize-none"
               />
             </div>
 
@@ -288,7 +288,7 @@ export function FormularioPedido() {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Anexos <span className="text-gray-400 text-xs font-normal">(opcional)</span>
               </label>
-              <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-colors">
+              <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-brand-500 hover:bg-brand-50 transition-colors">
                 <div className="flex flex-col items-center gap-1 text-gray-400">
                   <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
@@ -330,7 +330,7 @@ export function FormularioPedido() {
         {/* Section 3: Prazo e Urgência */}
         <div className="p-6">
           <h2 className="text-base font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <span className="w-6 h-6 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+            <span className="w-6 h-6 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center text-xs font-bold">3</span>
             Prazo e Urgência
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -348,7 +348,7 @@ export function FormularioPedido() {
                     key={opt.value}
                     className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors ${
                       form.urgencia === opt.value
-                        ? 'border-blue-500 bg-blue-50'
+                        ? 'border-brand-600 bg-brand-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
@@ -379,7 +379,7 @@ export function FormularioPedido() {
                 value={form.prazo_desejado}
                 onChange={handleChange}
                 min={new Date().toISOString().split('T')[0]}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
               />
               <p className="mt-2 text-xs text-gray-500">
                 Informe se houver uma data limite para conclusão do serviço.
@@ -393,7 +393,7 @@ export function FormularioPedido() {
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-8 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          className="bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-8 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
         >
           {loading ? (
             <span className="flex items-center gap-2">

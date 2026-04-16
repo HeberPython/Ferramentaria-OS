@@ -100,7 +100,7 @@ export function TabelaPedidos({ pedidos: pedidosIniciais }: TabelaPedidosProps) 
 
   function SortIcon({ col }: { col: SortKey }) {
     if (sortKey !== col) return <span className="text-gray-300 ml-1">↕</span>
-    return <span className="text-blue-600 ml-1">{sortDir === 'asc' ? '↑' : '↓'}</span>
+    return <span className="text-brand-600 ml-1">{sortDir === 'asc' ? '↑' : '↓'}</span>
   }
 
   return (
@@ -115,7 +115,7 @@ export function TabelaPedidos({ pedidos: pedidosIniciais }: TabelaPedidosProps) 
               placeholder="Buscar por nome, setor, número..."
               value={busca}
               onChange={(e) => { setBusca(e.target.value); setPagina(1) }}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
             />
           </div>
 
@@ -123,7 +123,7 @@ export function TabelaPedidos({ pedidos: pedidosIniciais }: TabelaPedidosProps) 
           <select
             value={filtroTipo}
             onChange={(e) => { setFiltroTipo(e.target.value); setPagina(1) }}
-            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600 bg-white"
           >
             <option value="">Todos os tipos</option>
             {TIPOS_SERVICO.map((t) => <option key={t} value={t}>{t}</option>)}
@@ -276,7 +276,7 @@ export function TabelaPedidos({ pedidos: pedidosIniciais }: TabelaPedidosProps) 
                       <td className="px-4 py-3">
                         <Link
                           href={`/admin/dashboard/pedidos/${p.id}`}
-                          className="text-blue-600 hover:text-blue-800 font-medium text-xs"
+                          className="text-brand-600 hover:text-blue-800 font-medium text-xs"
                         >
                           Abrir
                         </Link>
@@ -311,7 +311,7 @@ export function TabelaPedidos({ pedidos: pedidosIniciais }: TabelaPedidosProps) 
                     onClick={() => setPagina(p)}
                     className={`px-2.5 py-1 text-xs border rounded ${
                       p === pagina
-                        ? 'bg-blue-700 text-white border-blue-700'
+                        ? 'bg-brand-600 text-white border-brand-600'
                         : 'border-gray-300 hover:bg-gray-50'
                     }`}
                   >

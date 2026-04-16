@@ -96,7 +96,7 @@ export function Comentarios({ pedidoId, comentariosIniciais, isAdmin = false, no
           onChange={(e) => setConteudo(e.target.value)}
           placeholder="Adicionar comentário..."
           rows={3}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600 resize-none"
         />
         <div className="flex items-center justify-between mt-2 gap-3 flex-wrap">
           {isAdmin && (
@@ -114,7 +114,7 @@ export function Comentarios({ pedidoId, comentariosIniciais, isAdmin = false, no
           <button
             type="submit"
             disabled={loading || !conteudo.trim()}
-            className="bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-40"
+            className="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-2 px-4 rounded-lg transition-colors disabled:opacity-40"
           >
             {loading ? 'Enviando...' : 'Comentar'}
           </button>
