@@ -53,17 +53,17 @@ function Column({ status, pedidos }: { status: StatusPedido; pedidos: Pedido[] }
 
   return (
     // min-w-[85vw] garante que no celular a coluna ocupe quase a tela toda. md:min-w-[280px] volta ao normal no PC.
-    <div className="flex flex-col min-w-[85vw] md:min-w-[280px] w-full max-w-[300px] snap-center">
+    <div className="flex flex-col w-[80vw] md:w-[300px] flex-shrink-0 snap-center">
       <div className={`rounded-t-lg px-3 py-2 border ${config.border} ${config.bg} flex justify-between items-center`}>
         <span className={`text-sm font-bold ${config.color}`}>{config.label}</span>
         <span className="text-xs bg-white px-2 rounded-full border">{pedidos.length}</span>
       </div>
       <div
-        ref={setNodeRef}
-        className={`flex-1 rounded-b-lg border-x border-b ${config.border} p-2 min-h-[500px] transition-colors ${
-          isOver ? 'bg-blue-50' : 'bg-gray-50'
-        }`}
-      >
+  ref={setNodeRef}
+  className={`flex-1 w-full rounded-b-lg border-x border-b ${config.border} p-2 min-h-[70vh] transition-colors ${
+    isOver ? 'bg-blue-50' : 'bg-gray-50'
+  }`}
+>
         <SortableContext items={pedidos.map(p => p.id)} strategy={verticalListSortingStrategy}>
           <div className="space-y-2">
             {pedidos.map(p => <SortableItem key={p.id} pedido={p} />)}
@@ -118,15 +118,15 @@ export function KanbanBoardAdmin({ pedidosIniciais }: KanbanBoardAdminProps) {
       onDragEnd={handleDragEnd}
     >
       {/* snap-x snap-mandatory faz com que a rolagem horizontal "trave" nas colunas */}
-      <div className="flex gap-4 overflow-x-auto pb-10 snap-x snap-mandatory scroll-smooth">
-        {STATUS_ORDER.map(status => (
-          <Column 
-            key={status} 
-            status={status} 
-            pedidos={pedidos.filter(p => p.status === status)} 
-          />
-        ))}
-      </div>
+      <div className="flex gap-4 overflow-x-auto pb-10 snap-x snap-mandatory scroll-smooth no-scrollbar">
+  {STATUS_ORDER.map(status => (
+    <Column 
+      key={status} 
+      status={status} 
+      pedidos={pedidos.filter(p => p.status === status)} 
+    />
+  ))}
+</div>
       <DragOverlay>
         {activePedido ? (
           <div className="opacity-80 rotate-3 scale-105">
