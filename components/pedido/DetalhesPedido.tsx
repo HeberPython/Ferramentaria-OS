@@ -119,7 +119,7 @@ export function DetalhesPedido({ pedido: pedidoInicial, historico: historicoInic
             </div>
             <div className="text-right text-sm text-gray-500">
               <p>Criado em {new Date(pedido.criado_em).toLocaleDateString('pt-BR')}</p>
-              <p>Atualizado {new Date(pedido.atualizado_em).toLocaleDateString('pt-BR')}</p>
+              <p>Atualizado {pedido.atualizado_em ? new Date(pedido.atualizado_em).toLocaleDateString('pt-BR') : '-'}</p>
             </div>
           </div>
         </div>
