@@ -52,7 +52,8 @@ function Column({ status, pedidos }: { status: StatusPedido; pedidos: Pedido[] }
   const config = STATUS_CONFIG[status]
 
   return (
-    <div className="flex flex-col min-w-[280px] w-full max-w-[300px]">
+    // min-w-[85vw] garante que no celular a coluna ocupe quase a tela toda. md:min-w-[280px] volta ao normal no PC.
+    <div className="flex flex-col min-w-[85vw] md:min-w-[280px] w-full max-w-[300px] snap-center">
       <div className={`rounded-t-lg px-3 py-2 border ${config.border} ${config.bg} flex justify-between items-center`}>
         <span className={`text-sm font-bold ${config.color}`}>{config.label}</span>
         <span className="text-xs bg-white px-2 rounded-full border">{pedidos.length}</span>
@@ -94,7 +95,7 @@ export function KanbanBoardAdmin({ pedidosIniciais }: KanbanBoardAdminProps) {
     
     if (!STATUS_ORDER.includes(novoStatus) || novoStatus === pedidoMovido.status) return
 
-    // Atualização Otimista: Muda na tela antes de salvar no banco
+    // Atualização Otimista
     setPedidos(prev => prev.map(p => p.id === pedidoMovido.id ? { ...p, status: novoStatus } : p))
 
     try {
@@ -105,7 +106,6 @@ export function KanbanBoardAdmin({ pedidosIniciais }: KanbanBoardAdminProps) {
       })
       if (!res.ok) throw new Error()
     } catch {
-      // Se falhar, reverte para o status original
       setPedidos(prev => prev.map(p => p.id === pedidoMovido.id ? { ...p, status: pedidoMovido.status } : p))
     }
   }
@@ -117,7 +117,8 @@ export function KanbanBoardAdmin({ pedidosIniciais }: KanbanBoardAdminProps) {
       onDragStart={(e) => setActivePedido(pedidos.find(p => p.id === e.active.id) || null)}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-4 overflow-x-auto pb-10">
+      {/* snap-x snap-mandatory faz com que a rolagem horizontal "trave" nas colunas */}
+      <div className="flex gap-4 overflow-x-auto pb-10 snap-x snap-mandatory scroll-smooth">
         {STATUS_ORDER.map(status => (
           <Column 
             key={status} 
