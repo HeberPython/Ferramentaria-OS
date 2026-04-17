@@ -154,7 +154,7 @@ export async function enviarNotificacaoStatus(
 
     <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:24px;">
       ${cardInfo('Setor', pedido.setor)}
-      ${cardInfo('Tipo de Serviço', pedido.tipo_servico)}
+      ${cardInfo('Tipo de Serviço', pedido.tipo_servico || '')}
       ${pedido.prazo_definido ? cardInfo('Prazo definido', new Date(pedido.prazo_definido + 'T12:00:00').toLocaleDateString('pt-BR')) : ''}
     </table>
 
@@ -212,7 +212,7 @@ export async function enviarNotificacaoAdminStatus(
     <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:24px;">
       ${cardInfo('Solicitante', pedido.solicitante)}
       ${cardInfo('Setor', pedido.setor)}
-      ${cardInfo('Tipo de Serviço', pedido.tipo_servico)}
+      ${cardInfo('Tipo de Serviço', pedido.tipo_servico || '')}
       ${cardInfo('Movido por', usuarioNome)}
     </table>
 
@@ -257,7 +257,7 @@ export async function enviarNotificacaoAdminEdicao(
     <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:24px;">
       ${cardInfo('Solicitante', pedido.solicitante)}
       ${cardInfo('Setor', pedido.setor)}
-      ${cardInfo('Tipo de Serviço', pedido.tipo_servico)}
+      ${cardInfo('Tipo de Serviço', pedido.tipo_servico || '')}
       ${cardInfo('Status atual', STATUS_CONFIG[pedido.status as StatusPedido]?.label || pedido.status)}
     </table>
 
@@ -309,7 +309,7 @@ export async function enviarNotificacaoAdmin(pedido: Pedido): Promise<void> {
       ${cardInfo('Setor', pedido.setor)}
       ${cardInfo('E-mail', pedido.email_contato || '')}
       ${pedido.telefone ? cardInfo('Telefone', pedido.telefone) : ''}
-      ${cardInfo('Tipo de Serviço', pedido.tipo_servico)}
+      ${cardInfo('Tipo de Serviço', pedido.tipo_servico || '')}
       ${cardInfo('Urgência', pedido.urgencia === 'urgente' ? '🔴 URGENTE' : pedido.urgencia === 'alta' ? '🟡 Alta' : '🟢 Normal')}
       ${pedido.prazo_desejado ? cardInfo('Prazo desejado', new Date(pedido.prazo_desejado + 'T12:00:00').toLocaleDateString('pt-BR')) : ''}
       ${cardInfo('Recebido em', formatarData(pedido.criado_em))}
