@@ -11,11 +11,13 @@ export type RoleUsuario = 'admin' | 'editor'
 
 export interface Pedido {
   id: string;
+  numero?: number;      // ADICIONADO: O número que aparece como #0001
   titulo: string;
   solicitante: string;
   setor: string;
-  status: StatusPedido; // Voltamos para o tipo específico para satisfazer o arquivo de acompanhamento
-  urgencia: Urgencia;    // Voltamos para o tipo específico
+  tipo_servico?: string; // ADICIONADO: O tipo do serviço solicitado
+  status: StatusPedido;
+  urgencia: Urgencia;
   prazo: string;
   criado_em: string;
 }
