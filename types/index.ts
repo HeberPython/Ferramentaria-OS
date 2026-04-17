@@ -11,15 +11,18 @@ export type RoleUsuario = 'admin' | 'editor'
 
 export interface Pedido {
   id: string;
-  numero?: number;      // ADICIONADO: O número que aparece como #0001
+  numero?: number;
   titulo: string;
   solicitante: string;
   setor: string;
-  tipo_servico?: string; // ADICIONADO: O tipo do serviço solicitado
+  tipo_servico?: string;
   status: StatusPedido;
   urgencia: Urgencia;
   prazo: string;
+  prazo_definido?: boolean; // ADICIONADO: O campo que causou o erro 14:15
+  descricao?: string;      // Adicionado preventivamente
   criado_em: string;
+  updated_at?: string;     // Adicionado preventivamente
 }
 
 export interface Usuario {
