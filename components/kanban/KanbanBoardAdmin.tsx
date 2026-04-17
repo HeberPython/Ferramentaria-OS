@@ -23,7 +23,6 @@ interface KanbanBoardAdminProps {
   pedidosIniciais: Pedido[]
 }
 
-// Componente para o Card que pode ser arrastado
 function SortableItem({ pedido }: { pedido: Pedido }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: pedido.id,
@@ -43,7 +42,6 @@ function SortableItem({ pedido }: { pedido: Pedido }) {
   )
 }
 
-// Componente para a Coluna que aceita o Card
 function Column({ status, pedidos }: { status: StatusPedido; pedidos: Pedido[] }) {
   const { setNodeRef, isOver } = useDroppable({
     id: status,
@@ -52,20 +50,19 @@ function Column({ status, pedidos }: { status: StatusPedido; pedidos: Pedido[] }
   const config = STATUS_CONFIG[status]
 
   return (
-    // min-w-[85vw] garante que no celular a coluna ocupe quase a tela toda. md:min-w-[280px] volta ao normal no PC.
     <div className="flex flex-col w-[80vw] md:w-[300px] flex-shrink-0 snap-center">
-      <div className={`rounded-t-lg px-3 py-2 border ${config.border} ${config.bg} flex justify-between items-center`}>
+      <div className={`rounded-t-lg px-3 py-2 border-t border-x ${config.border} ${config.bg} flex justify-between items-center`}>
         <span className={`text-sm font-bold ${config.color}`}>{config.label}</span>
         <span className="text-xs bg-white px-2 rounded-full border">{pedidos.length}</span>
       </div>
       <div
-  ref={setNodeRef}
-  className={`flex-1 w-full rounded-b-lg border-x border-b ${config.border} p-2 min-h-[70vh] transition-colors ${
-    isOver ? 'bg-blue-50' : 'bg-gray-50'
-  }`}
->
+        ref={setNodeRef}
+        className={`flex-1 rounded-b-lg border-x border-b ${config.border} p-2 min-h-[500px] transition-colors ${
+          isOver ? 'bg-blue-50' : 'bg-gray-50'
+        }`}
+      >
         <SortableContext items={pedidos.map(p => p.id)} strategy={verticalListSortingStrategy}>
-          <div className="space-y-2">
+          <div className="space-y-2 h-full">
             {pedidos.map(p => <SortableItem key={p.id} pedido={p} />)}
           </div>
         </SortableContext>
@@ -92,10 +89,8 @@ export function KanbanBoardAdmin({ pedidosIniciais }: KanbanBoardAdminProps) {
     if (!pedidoMovido) return
 
     const novoStatus = (over.data.current?.status || over.id) as StatusPedido
-    
     if (!STATUS_ORDER.includes(novoStatus) || novoStatus === pedidoMovido.status) return
 
-    // Atualização Otimista
     setPedidos(prev => prev.map(p => p.id === pedidoMovido.id ? { ...p, status: novoStatus } : p))
 
     try {
@@ -117,16 +112,15 @@ export function KanbanBoardAdmin({ pedidosIniciais }: KanbanBoardAdminProps) {
       onDragStart={(e) => setActivePedido(pedidos.find(p => p.id === e.active.id) || null)}
       onDragEnd={handleDragEnd}
     >
-      {/* snap-x snap-mandatory faz com que a rolagem horizontal "trave" nas colunas */}
       <div className="flex gap-4 overflow-x-auto pb-10 snap-x snap-mandatory scroll-smooth no-scrollbar">
-  {STATUS_ORDER.map(status => (
-    <Column 
-      key={status} 
-      status={status} 
-      pedidos={pedidos.filter(p => p.status === status)} 
-    />
-  ))}
-</div>
+        {STATUS_ORDER.map(status => (
+          <Column 
+            key={status} 
+            status={status} 
+            pedidos={pedidos.filter(p => p.status === status)} 
+          />
+        ))}
+      </div>
       <DragOverlay>
         {activePedido ? (
           <div className="opacity-80 rotate-3 scale-105">
