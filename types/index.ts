@@ -14,8 +14,8 @@ export interface Pedido {
   titulo: string;
   solicitante: string;
   setor: string;
-  status: any;   // Flexível para evitar erro de build
-  urgencia: any; // Flexível para evitar erro de build
+  status: StatusPedido; // Voltamos para o tipo específico para satisfazer o arquivo de acompanhamento
+  urgencia: Urgencia;    // Voltamos para o tipo específico
   prazo: string;
   criado_em: string;
 }
