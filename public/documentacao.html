@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Documentação — Ferramentaria OS</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 13px;
+      color: #1a1a1a;
+      background: #fff;
+      line-height: 1.6;
+    }
+
+    /* ── Capa ── */
+    .capa {
+      background: #C41E3A;
+      color: white;
+      padding: 80px 60px;
+      min-height: 260px;
+      page-break-after: always;
+    }
+    .capa .label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 12px;
+    }
+    .capa h1 {
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .capa .sub {
+      font-size: 16px;
+      opacity: 0.85;
+      margin-bottom: 40px;
+    }
+    .capa .meta {
+      font-size: 12px;
+      opacity: 0.6;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+
+    /* ── Layout ── */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 60px;
+    }
+
+    /* ── TOC ── */
+    .toc {
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 48px;
+      page-break-after: always;
+    }
+    .toc h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #C41E3A;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .toc ol {
+      padding-left: 20px;
+    }
+    .toc li {
+      margin-bottom: 6px;
+      color: #333;
+    }
+    .toc a {
+      color: #C41E3A;
+      text-decoration: none;
+    }
+    .toc li.sub {
+      margin-left: 20px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* ── Seções ── */
+    section {
+      margin-bottom: 56px;
+      page-break-inside: avoid;
+    }
+    h2.section-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #C41E3A;
+      border-bottom: 3px solid #C41E3A;
+      padding-bottom: 8px;
+      margin-bottom: 24px;
+      margin-top: 48px;
+    }
+    h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #333;
+      margin: 24px 0 10px;
+      border-left: 3px solid #C41E3A;
+      padding-left: 10px;
+    }
+    p {
+      margin-bottom: 10px;
+      color: #444;
+    }
+    ul, ol {
+      padding-left: 20px;
+      margin-bottom: 12px;
+    }
+    li {
+      margin-bottom: 4px;
+      color: #444;
+    }
+    strong { color: #111; }
+
+    /* ── Tabelas ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 12px;
+    }
+    th {
+      background: #C41E3A;
+      color: white;
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #e8e8e8;
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: #fafafa; }
+
+    /* ── Código ── */
+    .file-block {
+      margin-bottom: 36px;
+      page-break-inside: avoid;
+    }
+    .file-header {
+      background: #2d2d2d;
+      color: #f0f0f0;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 11px;
+      padding: 8px 14px;
+      border-radius: 6px 6px 0 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .file-header .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-red   { background: #ff5f56; }
+    .dot-yellow{ background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 11px;
+      line-height: 1.55;
+      padding: 16px;
+      border-radius: 0 0 6px 6px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* ── Badges / Info boxes ── */
+    .info-box {
+      background: #fff8f8;
+      border: 1px solid #fecaca;
+      border-left: 4px solid #C41E3A;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+    }
+    .info-box .label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #C41E3A;
+      margin-bottom: 4px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .card {
+      background: #f9f9f9;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .card .card-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #888;
+      margin-bottom: 6px;
+    }
+    .card .card-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: #111;
+    }
+
+    /* ── Print ── */
+    @media print {
+      body { font-size: 11px; }
+      .capa { padding: 60px 48px; }
+      .content { padding: 24px 48px; }
+      h2.section-title { font-size: 16px; margin-top: 32px; }
+      pre { font-size: 9.5px; }
+      section { page-break-inside: avoid; }
+      .file-block { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════ CAPA ════════════════ -->
+<div class="capa">
+  <div class="label">SCiTec Laboratório</div>
+  <h1>Ferramentaria OS</h1>
+  <div class="sub">Documentação técnica completa do sistema de gestão de ordens de serviço</div>
+  <div class="meta">
+    Versão 1.0 &nbsp;·&nbsp; Gerado em abril de 2026 &nbsp;·&nbsp; Responsável: Heber Rosa &lt;heber.rosa@scitec.com.br&gt;
+  </div>
+</div>
+
+<!-- ════════════════ CONTEÚDO ════════════════ -->
+<div class="content">
+
+<!-- TOC -->
+<div class="toc">
+  <h2>Índice</h2>
+  <ol>
+    <li><a href="#visao-geral">Visão Geral do Sistema</a></li>
+    <li><a href="#ferramentas">Ferramentas e Tecnologias</a>
+      <ul>
+        <li class="sub"><a href="#stack">Stack principal</a></li>
+        <li class="sub"><a href="#servicos">Serviços externos</a></li>
+        <li class="sub"><a href="#deps">Dependências npm</a></li>
+      </ul>
+    </li>
+    <li><a href="#arquitetura">Arquitetura e Estrutura de Pastas</a></li>
+    <li><a href="#banco">Banco de Dados (Supabase / PostgreSQL)</a>
+      <ul>
+        <li class="sub"><a href="#schema">Schema SQL</a></li>
+        <li class="sub"><a href="#tabelas">Descrição das tabelas</a></li>
+        <li class="sub"><a href="#storage">Storage (anexos)</a></li>
+        <li class="sub"><a href="#sql-extras">SQL adicional</a></li>
+      </ul>
+    </li>
+    <li><a href="#env">Variáveis de Ambiente</a></li>
+    <li><a href="#codigos">Códigos-fonte</a>
+      <ul>
+        <li class="sub">types/index.ts</li>
+        <li class="sub">lib/constants.ts</li>
+        <li class="sub">lib/auth.ts</li>
+        <li class="sub">lib/email.ts</li>
+        <li class="sub">middleware.ts</li>
+        <li class="sub">app/page.tsx (painel público)</li>
+        <li class="sub">app/api/pedidos/route.ts</li>
+        <li class="sub">app/api/pedidos/[id]/status/route.ts</li>
+        <li class="sub">app/api/pedidos/[id]/editar-solicitante/route.ts</li>
+        <li class="sub">app/api/auth/login/route.ts</li>
+        <li class="sub">app/acompanhar/[token]/page.tsx</li>
+        <li class="sub">components/forms/FormularioPedido.tsx</li>
+        <li class="sub">components/pedido/EditarPedido.tsx</li>
+      </ul>
+    </li>
+    <li><a href="#fluxos">Fluxos principais</a></li>
+    <li><a href="#deploy">Deploy e Hospedagem</a></li>
+  </ol>
+</div>
+
+<!-- ════════════════ 1. VISÃO GERAL ════════════════ -->
+<section id="visao-geral">
+  <h2 class="section-title">1. Visão Geral do Sistema</h2>
+
+  <p>
+    O <strong>Ferramentaria OS</strong> é um sistema web de gestão de ordens de serviço desenvolvido para o setor de Ferramentaria da SCiTec Laboratório.
+    Qualquer colaborador da empresa pode abrir um pedido de serviço sem necessidade de login. A equipe da ferramentaria
+    gerencia os pedidos por meio de um painel Kanban com arrastar e soltar.
+  </p>
+
+  <div class="info-box">
+    <div class="label">URL de produção</div>
+    https://ferramentaria-os.vercel.app
+  </div>
+
+  <h3>Funcionalidades</h3>
+  <ul>
+    <li><strong>Painel público (Kanban read-only):</strong> Qualquer pessoa acessa e vê o quadro de pedidos sem login.</li>
+    <li><strong>Abertura de pedido:</strong> Formulário em /solicitar com campos obrigatórios, urgência, prazo desejado e upload de arquivos.</li>
+    <li><strong>Acompanhamento por token:</strong> Link único enviado por e-mail — /acompanhar/[token] — mostra status, histórico e comentários.</li>
+    <li><strong>Edição pelo solicitante:</strong> Na página de acompanhamento, o solicitante pode corrigir descrição, telefone e prazo desejado (enquanto não estiver concluído/cancelado).</li>
+    <li><strong>Painel admin (Kanban interativo):</strong> Login com e-mail/senha. Arrastar cards entre colunas muda o status. Disponível em /admin/dashboard/kanban.</li>
+    <li><strong>Tabela admin:</strong> Visão tabular com filtros, busca e exportação para Excel.</li>
+    <li><strong>Gestão de tipos de serviço:</strong> Admin cria/edita/desativa tipos em /admin/dashboard/tipos-servico.</li>
+    <li><strong>Gestão de usuários:</strong> Admin cria/edita contas de outros usuários (editor/admin).</li>
+    <li><strong>Anexos:</strong> Upload de arquivos na criação do pedido e pelo admin. Armazenados no Supabase Storage.</li>
+    <li><strong>Comentários:</strong> Internos (só admin vê) e públicos (visíveis ao solicitante).</li>
+    <li><strong>E-mails automáticos:</strong> Confirmação ao solicitante, notificação ao admin no novo pedido, alerta de mudança de status (solicitante + admin), alerta de edição pelo solicitante (admin).</li>
+  </ul>
+</section>
+
+<!-- ════════════════ 2. FERRAMENTAS ════════════════ -->
+<section id="ferramentas">
+  <h2 class="section-title">2. Ferramentas e Tecnologias</h2>
+
+  <h3 id="stack">Stack principal</h3>
+  <table>
+    <thead>
+      <tr><th>Camada</th><th>Tecnologia</th><th>Versão</th><th>Função</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Framework</td><td>Next.js (App Router)</td><td>14.2</td><td>SSR, API Routes, roteamento de páginas</td></tr>
+      <tr><td>Linguagem</td><td>TypeScript</td><td>5.x</td><td>Tipagem estática em todo o projeto</td></tr>
+      <tr><td>Estilização</td><td>Tailwind CSS</td><td>3.4</td><td>Utilitários CSS, paleta SCiTec (#C41E3A)</td></tr>
+      <tr><td>Runtime</td><td>Node.js</td><td>18+</td><td>Execução do servidor Next.js</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="servicos">Serviços externos</h3>
+  <table>
+    <thead>
+      <tr><th>Serviço</th><th>Uso</th><th>Plano</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Supabase</td><td>Banco PostgreSQL + Storage de arquivos (bucket "anexos")</td><td>Free tier</td></tr>
+      <tr><td>Resend</td><td>Envio de e-mails transacionais</td><td>Free tier (3.000 e-mails/mês)</td></tr>
+      <tr><td>Vercel</td><td>Hospedagem, deploy automático do GitHub</td><td>Hobby (free)</td></tr>
+      <tr><td>GitHub</td><td>Controle de versão, repositório do código</td><td>Free, repositório privado</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="deps">Dependências npm (package.json)</h3>
+  <table>
+    <thead>
+      <tr><th>Pacote</th><th>Versão</th><th>Finalidade</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>@supabase/supabase-js</td><td>^2.45</td><td>Cliente Supabase (banco + storage)</td></tr>
+      <tr><td>resend</td><td>^4.0</td><td>SDK de envio de e-mails</td></tr>
+      <tr><td>jose</td><td>^5.9</td><td>Criação e verificação de JWT (autenticação admin)</td></tr>
+      <tr><td>bcryptjs</td><td>^2.4</td><td>Hash de senhas no login admin</td></tr>
+      <tr><td>zod</td><td>^3.23</td><td>Validação de dados nas API Routes</td></tr>
+      <tr><td>@dnd-kit/core + sortable</td><td>^6.1 / ^8.0</td><td>Drag-and-drop do Kanban admin</td></tr>
+      <tr><td>xlsx</td><td>^0.18</td><td>Exportação de pedidos para Excel/CSV</td></tr>
+      <tr><td>next</td><td>14.2</td><td>Framework principal</td></tr>
+      <tr><td>react / react-dom</td><td>^18</td><td>Interface do usuário</td></tr>
+      <tr><td>tailwindcss</td><td>^3.4</td><td>Framework CSS</td></tr>
+      <tr><td>typescript</td><td>^5</td><td>Superset JavaScript tipado</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ════════════════ 3. ARQUITETURA ════════════════ -->
+<section id="arquitetura">
+  <h2 class="section-title">3. Arquitetura e Estrutura de Pastas</h2>
+
+  <p>O projeto segue a convenção do App Router do Next.js 14:</p>
+  <pre>ferramentaria-os/
+├── app/
+│   ├── page.tsx                          ← Painel público (Kanban read-only)
+│   ├── solicitar/page.tsx                ← Formulário de abertura de pedido
+│   ├── acompanhar/[token]/page.tsx       ← Acompanhamento por token (server)
+│   ├── admin/
+│   │   ├── page.tsx                      ← Tela de login
+│   │   ├── layout.tsx
+│   │   └── dashboard/
+│   │       ├── layout.tsx
+│   │       ├── kanban/page.tsx           ← Kanban interativo (admin)
+│   │       ├── tabela/page.tsx           ← Tabela com filtros e exportação
+│   │       ├── pedidos/[id]/page.tsx     ← Detalhe do pedido
+│   │       ├── usuarios/page.tsx         ← Gestão de usuários
+│   │       └── tipos-servico/page.tsx    ← Gestão de tipos de serviço
+│   └── api/
+│       ├── pedidos/
+│       │   ├── route.ts                  ← GET (listar) + POST (criar pedido)
+│       │   └── [id]/
+│       │       ├── route.ts              ← GET + PATCH (update) + DELETE
+│       │       ├── status/route.ts       ← PATCH status (requer auth admin)
+│       │       ├── comentarios/route.ts  ← GET + POST comentários
+│       │       ├── anexos/route.ts       ← GET + POST + DELETE anexos
+│       │       └── editar-solicitante/route.ts ← PATCH via token público
+│       ├── auth/
+│       │   ├── login/route.ts            ← POST login admin
+│       │   └── logout/route.ts           ← POST logout (clear cookie)
+│       ├── export/route.ts               ← GET exportar Excel
+│       ├── tipos-servico/
+│       │   ├── route.ts                  ← GET (público) + POST (admin)
+│       │   └── [id]/route.ts             ← PATCH + DELETE
+│       └── usuarios/
+│           ├── route.ts                  ← GET + POST usuários
+│           └── [id]/route.ts             ← PATCH + DELETE
+├── components/
+│   ├── forms/FormularioPedido.tsx        ← Formulário principal (client)
+│   ├── kanban/
+│   │   ├── KanbanBoard.tsx               ← Board read-only (server)
+│   │   ├── KanbanBoardAdmin.tsx          ← Board admin com DnD (client)
+│   │   ├── KanbanCard.tsx                ← Card do Kanban
+│   │   └── KanbanColumn.tsx              ← Coluna do Kanban
+│   ├── pedido/
+│   │   ├── Comentarios.tsx               ← Lista + formulário de comentários
+│   │   ├── Anexos.tsx                    ← Lista + upload de anexos
+│   │   └── EditarPedido.tsx              ← Edição pelo solicitante (client)
+│   └── ui/
+│       ├── StatusBadge.tsx
+│       └── UrgenciaBadge.tsx
+├── lib/
+│   ├── auth.ts                           ← Funções JWT (criar/verificar token)
+│   ├── constants.ts                      ← STATUS_CONFIG, URGENCIA_CONFIG
+│   ├── email.ts                          ← Todas as funções de e-mail (Resend)
+│   ├── supabase-server.ts                ← Cliente Supabase (service role)
+│   └── supabase-browser.ts               ← Cliente Supabase (anon key)
+├── types/index.ts                        ← Interfaces TypeScript
+├── middleware.ts                         ← Proteção de rotas /admin/dashboard
+├── supabase/schema.sql                   ← DDL completo do banco
+├── tailwind.config.ts                    ← Paleta de cores SCiTec
+├── next.config.mjs
+└── package.json</pre>
+</section>
+
+<!-- ════════════════ 4. BANCO ════════════════ -->
+<section id="banco">
+  <h2 class="section-title">4. Banco de Dados</h2>
+
+  <p>O banco é hospedado no <strong>Supabase</strong> (PostgreSQL gerenciado). A URL do projeto é:<br>
+  <code>https://yygsawyilwpyqgnyxwho.supabase.co</code></p>
+
+  <h3 id="tabelas">Tabelas</h3>
+  <table>
+    <thead>
+      <tr><th>Tabela</th><th>Descrição</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>usuarios</td><td>Contas da equipe da ferramentaria (admin / editor). Senha armazenada como bcrypt hash.</td></tr>
+      <tr><td>pedidos</td><td>Ordens de serviço. Contém todos os dados do pedido, status atual, responsável e token único de acompanhamento.</td></tr>
+      <tr><td>historico_status</td><td>Cada mudança de status gera um registro aqui. Funciona como trilha de auditoria.</td></tr>
+      <tr><td>comentarios</td><td>Comentários internos (visíveis só ao admin) ou públicos (visíveis ao solicitante na página de acompanhamento).</td></tr>
+      <tr><td>tipos_servico</td><td>Lista de tipos de serviço disponíveis no formulário. Gerenciada pelo admin.</td></tr>
+      <tr><td>anexos</td><td>Metadados dos arquivos enviados (nome, tamanho, tipo MIME, path no Supabase Storage).</td></tr>
+    </tbody>
+  </table>
+
+  <h3 id="schema">Schema SQL completo</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; supabase/schema.sql
+    </div>
+    <pre>-- Habilitar extensão para UUID
+create extension if not exists "pgcrypto";
+
+-- Tabela de usuários (admin/editores da ferramentaria)
+create table if not exists usuarios (
+  id uuid primary key default gen_random_uuid(),
+  nome text not null,
+  email text unique not null,
+  senha_hash text not null,
+  role text not null default 'editor', -- 'admin' | 'editor'
+  ativo boolean default true,
+  criado_em timestamptz default now()
+);
+
+-- Tabela de pedidos
+create table if not exists pedidos (
+  id uuid primary key default gen_random_uuid(),
+  numero serial,
+  setor text not null,
+  solicitante text not null,
+  email_contato text not null,
+  telefone text,
+  tipo_servico text not null,
+  descricao text not null,
+  urgencia text not null default 'normal',
+  prazo_desejado date,
+  prazo_definido date,
+  status text not null default 'recebido',
+  responsavel_id uuid references usuarios(id),
+  token_acompanhamento text unique default encode(gen_random_bytes(16), 'hex'),
+  observacoes_internas text,
+  criado_em timestamptz default now(),
+  atualizado_em timestamptz default now()
+);
+
+-- Tabela de histórico de status
+create table if not exists historico_status (
+  id uuid primary key default gen_random_uuid(),
+  pedido_id uuid references pedidos(id) on delete cascade,
+  status_anterior text,
+  status_novo text not null,
+  observacao text,
+  usuario_nome text,
+  criado_em timestamptz default now()
+);
+
+-- Tabela de comentários
+create table if not exists comentarios (
+  id uuid primary key default gen_random_uuid(),
+  pedido_id uuid references pedidos(id) on delete cascade,
+  usuario_nome text not null,
+  conteudo text not null,
+  interno boolean default false,
+  criado_em timestamptz default now()
+);
+
+-- Trigger para atualizar atualizado_em
+create or replace function update_atualizado_em()
+returns trigger as $$
+begin
+  new.atualizado_em = now();
+  return new;
+end;
+$$ language plpgsql;
+
+create trigger pedidos_atualizado_em
+  before update on pedidos
+  for each row execute function update_atualizado_em();
+
+-- RLS (Row Level Security)
+alter table pedidos enable row level security;
+alter table usuarios enable row level security;
+alter table historico_status enable row level security;
+alter table comentarios enable row level security;
+
+-- Política permissiva para service role (API Next.js usa service role key)
+create policy "Allow service role all" on pedidos for all using (true);
+create policy "Allow service role all" on usuarios for all using (true);
+create policy "Allow service role all" on historico_status for all using (true);
+create policy "Allow service role all" on comentarios for all using (true);</pre>
+  </div>
+
+  <h3 id="sql-extras">SQL adicional (executado posteriormente)</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; Tabela tipos_servico + Tabela anexos + usuário admin inicial
+    </div>
+    <pre>-- Tipos de serviço (gerenciados pelo admin)
+create table if not exists tipos_servico (
+  id uuid primary key default gen_random_uuid(),
+  nome text not null unique,
+  ordem int default 0,
+  ativo boolean default true,
+  criado_em timestamptz default now()
+);
+
+alter table tipos_servico enable row level security;
+create policy "Allow service role all" on tipos_servico for all using (true);
+
+-- Popular com tipos iniciais
+insert into tipos_servico (nome, ordem) values
+  ('Dispositivo de Ensaio', 1),
+  ('Preparação de Amostra', 2),
+  ('Serralheria', 3),
+  ('Metalografia', 4),
+  ('Manutenção Predial', 5),
+  ('Serviço Terceirizado', 6),
+  ('Outros', 7);
+
+-- Tabela de anexos
+create table if not exists anexos (
+  id uuid primary key default gen_random_uuid(),
+  pedido_id uuid references pedidos(id) on delete cascade,
+  nome_arquivo text not null,
+  tamanho int,
+  tipo_mime text,
+  storage_path text not null,
+  criado_em timestamptz default now()
+);
+
+alter table anexos enable row level security;
+create policy "Allow service role all" on anexos for all using (true);
+
+-- Storage bucket "anexos" (criar na interface do Supabase → Storage → New bucket)
+-- Nome: anexos
+-- Tipo: public
+
+-- Usuário admin inicial (senha: trocar após primeiro acesso)
+-- Hash bcrypt gerado com: node -e "const b=require('bcryptjs'); console.log(b.hashSync('SUA_SENHA',12))"
+insert into usuarios (nome, email, senha_hash, role)
+values (
+  'Heber Rosa',
+  'heber.rosa@scitec.com.br',
+  '$2a$12$WEAyQYDoPCkkdTTwkfYEEuK4xhUtXzerRIT8ti6CNxz6cwgyPEDMy', -- trocar
+  'admin'
+);</pre>
+  </div>
+
+  <h3 id="storage">Supabase Storage (bucket "anexos")</h3>
+  <ul>
+    <li>Criado manualmente em: Supabase → Storage → New bucket → Nome: <strong>anexos</strong> → Marcar como <strong>Public</strong></li>
+    <li>Os arquivos são armazenados no caminho: <code>{pedido_id}/{timestamp}_{nome_arquivo}</code></li>
+    <li>O download usa URL pública gerada pelo Supabase Storage</li>
+    <li>Limite por arquivo: 50 MB</li>
+  </ul>
+</section>
+
+<!-- ════════════════ 5. ENV ════════════════ -->
+<section id="env">
+  <h2 class="section-title">5. Variáveis de Ambiente</h2>
+
+  <p>Arquivo <code>.env.local</code> (local, não vai para o git). No Vercel, configuradas em <em>Settings → Environment Variables</em>.</p>
+
+  <div class="info-box">
+    <div class="label">Atenção — segurança</div>
+    Nunca commitar o arquivo .env.local. As chaves abaixo são do ambiente de produção atual.
+    Em caso de migração para servidores da empresa, gerar novas chaves e revogar as atuais.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Variável</th><th>Onde obter</th><th>Descrição</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>NEXT_PUBLIC_SUPABASE_URL</td><td>Supabase → Project Settings → API</td><td>URL do projeto Supabase</td></tr>
+      <tr><td>NEXT_PUBLIC_SUPABASE_ANON_KEY</td><td>Supabase → Project Settings → API</td><td>Chave pública (anon) para client-side</td></tr>
+      <tr><td>SUPABASE_SERVICE_ROLE_KEY</td><td>Supabase → Project Settings → API</td><td>Chave secreta usada nas API Routes (server-side apenas)</td></tr>
+      <tr><td>JWT_SECRET</td><td>Gerar: openssl rand -hex 64</td><td>Segredo para assinar/verificar tokens JWT dos admins</td></tr>
+      <tr><td>RESEND_API_KEY</td><td>resend.com → API Keys</td><td>Chave para envio de e-mails pelo Resend</td></tr>
+      <tr><td>EMAIL_FROM</td><td>Configurado no Resend</td><td>Remetente dos e-mails automáticos</td></tr>
+      <tr><td>EMAIL_ADMIN</td><td>E-mail do responsável</td><td>Destinatário das notificações administrativas</td></tr>
+      <tr><td>NEXT_PUBLIC_BASE_URL</td><td>URL do site</td><td>Base para gerar links nos e-mails (ex: https://ferramentaria-os.vercel.app)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; .env.local (valores de produção atuais)
+    </div>
+    <pre>NEXT_PUBLIC_SUPABASE_URL=https://yygsawyilwpyqgnyxwho.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_xNYl0oZxRqfqDb_l4Kaacw_jhzA3TTa
+SUPABASE_SERVICE_ROLE_KEY=sb_secret_Rxe96uVb90dM4ETB1YvcAQ_Jg5DU_e4
+JWT_SECRET=NnJY8EyFYh6hQW2gNOgr9o4TIlSuPK7bebAnsOtnFh54xHo0HH7HzzlTeoPcVAXD
+RESEND_API_KEY=re_JgDwaBXV_JrgZnep2FiDzxzngoAWYWMJN
+EMAIL_FROM=onboarding@resend.dev
+EMAIL_ADMIN=heber.rosa@scitec.com.br
+NEXT_PUBLIC_BASE_URL=https://ferramentaria-os.vercel.app</pre>
+  </div>
+</section>
+
+<!-- ════════════════ 6. CÓDIGOS ════════════════ -->
+<section id="codigos">
+  <h2 class="section-title">6. Códigos-fonte</h2>
+
+  <!-- types/index.ts -->
+  <h3>types/index.ts — Interfaces TypeScript</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; types/index.ts
+    </div>
+    <pre>export type StatusPedido =
+  | 'recebido'
+  | 'em_analise'
+  | 'aguardando_material'
+  | 'em_andamento'
+  | 'concluido'
+  | 'cancelado'
+
+export type Urgencia = 'normal' | 'alta' | 'urgente'
+export type RoleUsuario = 'admin' | 'editor'
+
+export interface Pedido {
+  id: string
+  numero: number
+  setor: string
+  solicitante: string
+  email_contato: string
+  telefone?: string
+  tipo_servico: string
+  descricao: string
+  urgencia: Urgencia
+  prazo_desejado?: string
+  prazo_definido?: string
+  status: StatusPedido
+  responsavel_id?: string
+  token_acompanhamento: string
+  observacoes_internas?: string
+  criado_em: string
+  atualizado_em: string
+  responsavel?: Usuario
+}
+
+export interface Usuario {
+  id: string
+  nome: string
+  email: string
+  role: RoleUsuario
+  ativo: boolean
+  criado_em: string
+}
+
+export interface HistoricoStatus {
+  id: string
+  pedido_id: string
+  status_anterior?: string
+  status_novo: string
+  observacao?: string
+  usuario_nome?: string
+  criado_em: string
+}
+
+export interface Comentario {
+  id: string
+  pedido_id: string
+  usuario_nome: string
+  conteudo: string
+  interno: boolean
+  criado_em: string
+}
+
+export interface JWTPayload {
+  id: string
+  email: string
+  nome: string
+  role: RoleUsuario
+}</pre>
+  </div>
+
+  <!-- lib/constants.ts -->
+  <h3>lib/constants.ts — Configurações de status e urgência</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; lib/constants.ts
+    </div>
+    <pre>import { StatusPedido } from '@/types'
+
+export const STATUS_CONFIG: Record&lt;
+  StatusPedido,
+  { label: string; color: string; bg: string; border: string; dot: string }
+&gt; = {
+  recebido:            { label: 'Recebido',            color: 'text-blue-700',   bg: 'bg-blue-50',   border: 'border-blue-200',   dot: 'bg-blue-500'   },
+  em_analise:          { label: 'Em Análise',           color: 'text-yellow-700', bg: 'bg-yellow-50', border: 'border-yellow-200', dot: 'bg-yellow-500' },
+  aguardando_material: { label: 'Aguardando Material',  color: 'text-orange-700', bg: 'bg-orange-50', border: 'border-orange-200', dot: 'bg-orange-500' },
+  em_andamento:        { label: 'Em Andamento',         color: 'text-purple-700', bg: 'bg-purple-50', border: 'border-purple-200', dot: 'bg-purple-500' },
+  concluido:           { label: 'Concluído',            color: 'text-green-700',  bg: 'bg-green-50',  border: 'border-green-200',  dot: 'bg-green-500'  },
+  cancelado:           { label: 'Cancelado',            color: 'text-gray-600',   bg: 'bg-gray-50',   border: 'border-gray-200',   dot: 'bg-gray-400'   },
+}
+
+export const URGENCIA_CONFIG = {
+  normal:  { label: 'Normal',  color: 'text-gray-600',  bg: 'bg-gray-100'  },
+  alta:    { label: 'Alta',    color: 'text-yellow-700',bg: 'bg-yellow-100'},
+  urgente: { label: 'Urgente', color: 'text-red-700',   bg: 'bg-red-100'   },
+}
+
+export const TIPOS_SERVICO = [
+  'Dispositivo de Ensaio', 'Preparação de Amostra', 'Serralheria',
+  'Metalografia', 'Manutenção Predial', 'Serviço Terceirizado', 'Outros',
+]
+
+export const STATUS_ORDER: StatusPedido[] = [
+  'recebido', 'em_analise', 'aguardando_material', 'em_andamento', 'concluido', 'cancelado',
+]</pre>
+  </div>
+
+  <!-- lib/auth.ts -->
+  <h3>lib/auth.ts — JWT (autenticação admin)</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; lib/auth.ts
+    </div>
+    <pre>import { SignJWT, jwtVerify } from 'jose'
+import { JWTPayload } from '@/types'
+
+const getSecret = () => new TextEncoder().encode(process.env.JWT_SECRET!)
+
+export async function criarToken(payload: JWTPayload): Promise&lt;string&gt; {
+  return await new SignJWT({ ...payload })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('8h')
+    .sign(getSecret())
+}
+
+export async function verificarToken(token: string): Promise&lt;JWTPayload | null&gt; {
+  try {
+    const { payload } = await jwtVerify(token, getSecret())
+    return {
+      id: payload.id as string,
+      email: payload.email as string,
+      nome: payload.nome as string,
+      role: payload.role as JWTPayload['role'],
+    }
+  } catch {
+    return null
+  }
+}</pre>
+  </div>
+
+  <!-- middleware.ts -->
+  <h3>middleware.ts — Proteção de rotas admin</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; middleware.ts
+    </div>
+    <pre>import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+import { jwtVerify } from 'jose'
+
+export async function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname.startsWith('/admin/dashboard')) {
+    const token = request.cookies.get('ferramentaria_token')?.value
+    if (!token) {
+      return NextResponse.redirect(new URL('/admin', request.url))
+    }
+    try {
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET!)
+      await jwtVerify(token, secret)
+      return NextResponse.next()
+    } catch {
+      return NextResponse.redirect(new URL('/admin', request.url))
+    }
+  }
+  return NextResponse.next()
+}
+
+export const config = {
+  matcher: ['/admin/dashboard/:path*'],
+}</pre>
+  </div>
+
+  <!-- lib/email.ts -->
+  <h3>lib/email.ts — E-mails automáticos (Resend)</h3>
+  <p>Quatro funções de e-mail exportadas:</p>
+  <ul>
+    <li><strong>enviarConfirmacaoPedido(pedido)</strong> → para o solicitante ao criar pedido</li>
+    <li><strong>enviarNotificacaoAdmin(pedido)</strong> → para o admin ao criar pedido</li>
+    <li><strong>enviarNotificacaoStatus(pedido, anterior, novo, obs?)</strong> → para o solicitante ao mudar status</li>
+    <li><strong>enviarNotificacaoAdminStatus(pedido, anterior, novo, usuarioNome, obs?)</strong> → para o admin ao mover card</li>
+    <li><strong>enviarNotificacaoAdminEdicao(pedido, camposAlterados[])</strong> → para o admin quando solicitante edita</li>
+  </ul>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; lib/email.ts (cabeçalho + template base)
+    </div>
+    <pre>import { Resend } from 'resend'
+import { Pedido, StatusPedido } from '@/types'
+import { STATUS_CONFIG } from '@/lib/constants'
+
+const resend = new Resend(process.env.RESEND_API_KEY!)
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+const EMAIL_FROM = process.env.EMAIL_FROM || 'ferramentaria@noreply.com'
+const EMAIL_ADMIN = process.env.EMAIL_ADMIN || ''
+
+function templateBase(titulo: string, conteudo: string): string {
+  return `&lt;!DOCTYPE html&gt;&lt;html lang="pt-BR"&gt;
+  &lt;body style="background:#f3f4f6;font-family:Arial,sans-serif;"&gt;
+    &lt;table width="100%" ...&gt;
+      &lt;!-- Header vermelho SCiTec #C41E3A --&gt;
+      &lt;tr&gt;&lt;td style="background:#C41E3A;padding:24px 32px;"&gt;
+        &lt;h1 style="color:#fff;"&gt;🔧 Ferramentaria OS&lt;/h1&gt;
+        &lt;p style="color:#fecdd3;"&gt;${titulo}&lt;/p&gt;
+      &lt;/td&gt;&lt;/tr&gt;
+      &lt;!-- Conteúdo --&gt;
+      &lt;tr&gt;&lt;td style="padding:32px;"&gt;${conteudo}&lt;/td&gt;&lt;/tr&gt;
+      &lt;!-- Rodapé --&gt;
+      &lt;tr&gt;&lt;td style="background:#f9fafb;..."&gt;E-mail automático...&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/body&gt;&lt;/html&gt;`
+}
+
+// 5 funções exportadas: enviarConfirmacaoPedido, enviarNotificacaoAdmin,
+// enviarNotificacaoStatus, enviarNotificacaoAdminStatus, enviarNotificacaoAdminEdicao
+// Todas usam resend.emails.send({ from, to, subject, html: templateBase(...) })</pre>
+  </div>
+
+  <!-- app/api/pedidos/route.ts -->
+  <h3>app/api/pedidos/route.ts — Criar e listar pedidos</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; app/api/pedidos/route.ts
+    </div>
+    <pre>import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
+import { supabaseServer } from '@/lib/supabase-server'
+import { enviarConfirmacaoPedido, enviarNotificacaoAdmin } from '@/lib/email'
+import { Pedido } from '@/types'
+
+const schemaCriar = z.object({
+  setor: z.string().min(1),
+  solicitante: z.string().min(1),
+  email_contato: z.string().email(),
+  telefone: z.string().optional(),
+  tipo_servico: z.string().min(1),
+  descricao: z.string().min(10),
+  urgencia: z.enum(['normal', 'alta', 'urgente']),
+  prazo_desejado: z.string().optional(),
+})
+
+// GET — lista pedidos com filtros opcionais (status, urgencia, tipo_servico, busca)
+export async function GET(request: NextRequest) { ... }
+
+// POST — cria pedido, registra histórico, envia 2 e-mails
+export async function POST(request: NextRequest) {
+  // 1. Validar com zod
+  // 2. INSERT na tabela pedidos
+  // 3. INSERT historico_status (status inicial: 'recebido')
+  // 4. enviarConfirmacaoPedido(pedido) — para o solicitante
+  // 5. enviarNotificacaoAdmin(pedido)  — para o admin
+  // 6. Retornar { pedido } com status 201
+}</pre>
+  </div>
+
+  <!-- app/api/pedidos/[id]/status/route.ts -->
+  <h3>app/api/pedidos/[id]/status/route.ts — Mudar status (requer login admin)</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; app/api/pedidos/[id]/status/route.ts
+    </div>
+    <pre>// PATCH — verificar cookie JWT → buscar pedido → UPDATE status →
+//         INSERT historico_status → enviarNotificacaoStatus (solicitante) →
+//         enviarNotificacaoAdminStatus (admin)
+
+export async function PATCH(request, { params }) {
+  // 1. Verificar cookie 'ferramentaria_token' → verificarToken()
+  // 2. Validar body: { status, observacao? }
+  // 3. Buscar pedido atual no Supabase
+  // 4. UPDATE pedidos SET status = statusNovo
+  // 5. INSERT historico_status
+  // 6. Enviar e-mails (try/catch independente para não bloquear)
+  // 7. Retornar { pedido, historico }
+}</pre>
+  </div>
+
+  <!-- app/api/pedidos/[id]/editar-solicitante/route.ts -->
+  <h3>app/api/pedidos/[id]/editar-solicitante/route.ts — Edição pública via token</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; app/api/pedidos/[id]/editar-solicitante/route.ts
+    </div>
+    <pre>import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
+import { supabaseServer } from '@/lib/supabase-server'
+import { enviarNotificacaoAdminEdicao } from '@/lib/email'
+
+const schemaEdicao = z.object({
+  token: z.string().min(1),
+  descricao: z.string().min(10).optional(),
+  telefone: z.string().optional(),
+  prazo_desejado: z.string().nullable().optional(),
+})
+
+export async function PATCH(request, { params }) {
+  // 1. Validar body com zod (inclui token de acompanhamento)
+  // 2. Buscar pedido por id + token_acompanhamento (autenticação por token)
+  // 3. Rejeitar se status é 'concluido' ou 'cancelado'
+  // 4. Detectar apenas os campos que mudaram
+  // 5. UPDATE pedidos com os campos alterados
+  // 6. INSERT historico_status com observação dos campos alterados
+  // 7. enviarNotificacaoAdminEdicao(pedido, camposAlterados)
+  // 8. Retornar { pedido: pedidoAtualizado }
+}</pre>
+  </div>
+
+  <!-- app/api/auth/login/route.ts -->
+  <h3>app/api/auth/login/route.ts — Login admin</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; app/api/auth/login/route.ts
+    </div>
+    <pre>import bcrypt from 'bcryptjs'
+import { criarToken } from '@/lib/auth'
+
+// POST — valida email/senha → bcrypt.compare → criarToken JWT →
+//        set-cookie 'ferramentaria_token' (httpOnly, 8h)
+export async function POST(request) {
+  const { email, senha } = await request.json()
+  const usuario = await supabaseServer.from('usuarios')
+    .select('*').eq('email', email).eq('ativo', true).single()
+
+  const senhaValida = await bcrypt.compare(senha, usuario.senha_hash)
+  if (!senhaValida) return 401
+
+  const token = await criarToken({ id, email, nome, role })
+  // Cookie: httpOnly, secure em prod, sameSite: 'lax', maxAge: 8h
+  response.cookies.set('ferramentaria_token', token, { httpOnly: true, ... })
+  return { ok: true, usuario }
+}</pre>
+  </div>
+
+  <!-- app/acompanhar/[token]/page.tsx -->
+  <h3>app/acompanhar/[token]/page.tsx — Página de acompanhamento pública</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; app/acompanhar/[token]/page.tsx (Server Component)
+    </div>
+    <pre>// Server Component — busca dados no Supabase server-side
+// Renderiza: hero do pedido (status + urgência), dados, timeline de histórico,
+//            componente EditarPedido (client), anexos, comentários públicos
+
+import { EditarPedido } from '@/components/pedido/EditarPedido'
+
+export default async function AcompanharPage({ params }) {
+  const pedido = await getPedidoPorToken(params.token)
+  if (!pedido) notFound()
+
+  const [historico, comentarios, anexos] = await Promise.all([
+    getHistorico(pedido.id),
+    getComentariosPublicos(pedido.id),
+    getAnexos(pedido.id),
+  ])
+
+  return (
+    &lt;main&gt;
+      {/* hero com status */}
+      {/* card de dados */}
+      {/* timeline de histórico */}
+
+      {/* Edição: só mostra se não está concluído/cancelado */}
+      {pedido.status !== 'concluido' &amp;&amp; pedido.status !== 'cancelado' &amp;&amp; (
+        &lt;EditarPedido
+          pedidoId={pedido.id}
+          token={params.token}
+          descricaoAtual={pedido.descricao}
+          telefoneAtual={pedido.telefone || ''}
+          prazoDesejadoAtual={pedido.prazo_desejado || ''}
+        /&gt;
+      )}
+
+      {/* Anexos e Comentários */}
+    &lt;/main&gt;
+  )
+}</pre>
+  </div>
+
+  <!-- components/forms/FormularioPedido.tsx -->
+  <h3>components/forms/FormularioPedido.tsx — Formulário de abertura de pedido</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; components/forms/FormularioPedido.tsx (Client Component)
+    </div>
+    <pre>'use client'
+
+// Carrega tipos de serviço de /api/tipos-servico via useEffect
+// Seções: 1. Identificação | 2. Detalhes do Serviço | 3. Prazo e Urgência
+
+// Funcionalidade "Adicionar novo tipo":
+// - Select tem opção value="__novo__" → ➕ Adicionar novo tipo...
+// - Ao selecionar, exibe input de texto + botões Confirmar/Cancelar
+// - Ao confirmar, o texto digitado vira form.tipo_servico
+// - Mostra "Novo tipo: '...'" abaixo do select como confirmação
+
+// Upload de anexos:
+// - Estado: arquivos: File[]
+// - Label estilizado como dropzone (click para selecionar, múltiplos)
+// - Lista de arquivos selecionados com botão de remover
+// - No submit: POST /api/pedidos → depois POST /api/pedidos/{id}/anexos para cada arquivo
+
+// Após submit com sucesso: exibe card de confirmação com
+// número do pedido (#XXXX) + link de acompanhamento</pre>
+  </div>
+
+  <!-- components/pedido/EditarPedido.tsx -->
+  <h3>components/pedido/EditarPedido.tsx — Edição pelo solicitante</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; components/pedido/EditarPedido.tsx (Client Component)
+    </div>
+    <pre>'use client'
+
+// Props: pedidoId, token, descricaoAtual, telefoneAtual, prazoDesejadoAtual
+// Estado: aberto (bool), descricao, telefone, prazoDesejado, salvando, error, success
+
+// Comportamento:
+// - Quando aberto=false: exibe botão "Editar pedido" + texto explicativo
+// - Quando aberto=true: exibe formulário com os 3 campos editáveis
+// - Submit: PATCH /api/pedidos/{pedidoId}/editar-solicitante
+//           body: { token, descricao, telefone, prazo_desejado }
+// - Sucesso: fecha form, mostra "Pedido atualizado! A ferramentaria foi notificada por e-mail."
+// - Cancelar: restaura valores originais (descricaoAtual, etc.)</pre>
+  </div>
+
+  <!-- tailwind.config.ts -->
+  <h3>tailwind.config.ts — Paleta SCiTec</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; tailwind.config.ts (trecho relevante)
+    </div>
+    <pre>theme: {
+  extend: {
+    colors: {
+      brand: {
+        50:  '#FFF1F2',
+        100: '#FFE4E6',
+        200: '#FECDD3',
+        300: '#FDA4AF',
+        400: '#FB7185',
+        500: '#E0243A',
+        600: '#C41E3A',   // ← cor principal SCiTec
+        700: '#9F1828',
+        800: '#7E1220',
+        900: '#5C0D18',
+      },
+    },
+  },
+},</pre>
+  </div>
+</section>
+
+<!-- ════════════════ 7. FLUXOS ════════════════ -->
+<section id="fluxos">
+  <h2 class="section-title">7. Fluxos Principais</h2>
+
+  <h3>Fluxo: Abertura de pedido</h3>
+  <ol>
+    <li>Colaborador acessa <code>/solicitar</code></li>
+    <li>Preenche o formulário (FormularioPedido.tsx)</li>
+    <li><code>POST /api/pedidos</code> → valida com zod → INSERT na tabela pedidos → INSERT historico_status</li>
+    <li>Se há arquivos: <code>POST /api/pedidos/{id}/anexos</code> para cada arquivo (upload para Supabase Storage)</li>
+    <li>E-mail de confirmação enviado ao solicitante (Resend)</li>
+    <li>E-mail de notificação enviado ao admin (Resend)</li>
+    <li>Formulário mostra número do pedido + link de acompanhamento único</li>
+  </ol>
+
+  <h3>Fluxo: Movimentação de card (admin)</h3>
+  <ol>
+    <li>Admin faz login em <code>/admin</code> → cookie JWT definido (8h)</li>
+    <li>No Kanban (<code>/admin/dashboard/kanban</code>), arrasta card para outra coluna</li>
+    <li><code>PATCH /api/pedidos/{id}/status</code> com <code>{ status: 'em_andamento', observacao? }</code></li>
+    <li>Middleware verifica cookie JWT antes de chegar na rota</li>
+    <li>UPDATE pedidos, INSERT historico_status</li>
+    <li>E-mail para solicitante notificando mudança de status</li>
+    <li>E-mail para admin confirmando a movimentação</li>
+  </ol>
+
+  <h3>Fluxo: Solicitante edita pedido</h3>
+  <ol>
+    <li>Solicitante acessa seu link <code>/acompanhar/{token}</code></li>
+    <li>Se status ≠ concluído/cancelado, vê o componente EditarPedido</li>
+    <li>Clica em "Editar pedido", modifica campos desejados</li>
+    <li><code>PATCH /api/pedidos/{id}/editar-solicitante</code> com token de acompanhamento no body</li>
+    <li>API verifica o token (sem necessidade de login), atualiza os campos, registra no histórico</li>
+    <li>E-mail enviado ao admin listando os campos alterados</li>
+  </ol>
+</section>
+
+<!-- ════════════════ 8. DEPLOY ════════════════ -->
+<section id="deploy">
+  <h2 class="section-title">8. Deploy e Hospedagem</h2>
+
+  <h3>Infraestrutura atual</h3>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Hospedagem</div>
+      <div class="card-value">Vercel (Hobby — gratuito)</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Repositório</div>
+      <div class="card-value">GitHub (HeberPython/ferramentaria-os)</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Banco de dados</div>
+      <div class="card-value">Supabase Free Tier</div>
+    </div>
+    <div class="card">
+      <div class="card-title">E-mail</div>
+      <div class="card-value">Resend Free (3k e-mails/mês)</div>
+    </div>
+  </div>
+
+  <h3>Processo de deploy</h3>
+  <ol>
+    <li>Código alterado localmente com VS Code</li>
+    <li><code>git add .</code> → <code>git commit -m "mensagem"</code> → <code>git push</code></li>
+    <li>Vercel detecta o push automaticamente e inicia o build (<code>next build</code>)</li>
+    <li>Em ~2 minutos a nova versão está em produção</li>
+  </ol>
+
+  <h3>Comandos úteis em desenvolvimento</h3>
+  <div class="file-block">
+    <div class="file-header">
+      <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+      &nbsp; Terminal (pasta ferramentaria-os)
+    </div>
+    <pre># Instalar dependências
+npm install
+
+# Iniciar servidor de desenvolvimento (http://localhost:3000)
+npm run dev
+
+# Fazer build de produção localmente
+npm run build
+
+# Verificar erros de TypeScript
+npx tsc --noEmit
+
+# Enviar para o GitHub (deploy automático Vercel)
+git add .
+git commit -m "descricao da mudanca"
+git push</pre>
+  </div>
+
+  <h3>Migração para servidores da empresa (guia resumido)</h3>
+  <ol>
+    <li><strong>Servidor da empresa:</strong> Precisa de Node.js 18+ instalado. Funciona em Windows Server ou Linux.</li>
+    <li><strong>Build:</strong> Rodar <code>npm run build</code> no servidor e iniciar com <code>npm start</code> (porta 3000 por padrão).</li>
+    <li><strong>Variáveis de ambiente:</strong> Criar arquivo <code>.env.production</code> ou configurar no ambiente do servidor (não usar .env.local em produção).</li>
+    <li><strong>Domínio interno:</strong> Configurar proxy reverso (nginx ou IIS) apontando para localhost:3000.</li>
+    <li><strong>Banco de dados:</strong> Pode continuar usando o Supabase cloud, ou migrar para PostgreSQL local usando <code>pg_dump</code> / <code>pg_restore</code>.</li>
+    <li><strong>E-mails:</strong> Pode continuar usando Resend, ou configurar SMTP interno (substituir lib/email.ts por nodemailer).</li>
+    <li><strong>GitHub:</strong> Remover a conta pessoal como owner e transferir o repositório para a organização SCiTec no GitHub.</li>
+  </ol>
+</section>
+
+<p style="text-align:center;color:#aaa;font-size:11px;margin-top:60px;padding-top:24px;border-top:1px solid #eee;">
+  Ferramentaria OS — SCiTec Laboratório &nbsp;·&nbsp; Documentação gerada em abril de 2026
+</p>
+
+</div><!-- /content -->
+</body>
+</html>
