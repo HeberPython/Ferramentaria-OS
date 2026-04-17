@@ -2,6 +2,7 @@
 
 import { Pedido } from '@/types'
 import { STATUS_CONFIG, URGENCIA_CONFIG } from '@/lib/constants'
+import Link from 'next/link'
 
 interface KanbanCardProps {
   pedido: Pedido
@@ -18,22 +19,26 @@ export function KanbanCard({ pedido, isAdmin = false, commentCount = 0, isDraggi
   const urgenciaKey = urgenciaRaw as keyof typeof URGENCIA_CONFIG
   const urgencia = URGENCIA_CONFIG[urgenciaKey] || URGENCIA_CONFIG.normal
 
-  return (
+  const titulo = pedido.tipo_servico || pedido.titulo || 'Sem título'
+
+  const cardContent = (
     <div
-      className={`bg-white border rounded-lg shadow-sm overflow-hidden flex h-20 shrink-0 ${
+      className={`bg-white border rounded-lg shadow-sm overflow-hidden flex h-20 shrink-0 hover:shadow-md transition-shadow cursor-pointer ${
         isDragging ? 'opacity-50 rotate-1 shadow-xl' : ''
       }`}
     >
       <div className={`w-1 shrink-0 ${statusConfig.bg}`} />
       <div className="p-2 flex-1 min-w-0 flex flex-col justify-between">
         <div className="flex justify-between items-center leading-none">
-          <span className="text-[9px] font-mono text-gray-400">#{pedido.id.slice(-4)}</span>
+          <span className="text-[9px] font-mono text-gray-400">
+            #{String(pedido.numero || pedido.id.slice(-4)).padStart(4, '0')}
+          </span>
           <span className={`text-[8px] px-1.5 py-0.5 rounded-full font-bold uppercase ${urgencia.bg} ${urgencia.color}`}>
             {urgencia.label}
           </span>
         </div>
         <h4 className="text-xs font-bold text-gray-900 truncate my-0.5">
-          {pedido.titulo}
+          {titulo}
         </h4>
         <div className="text-[9px] text-gray-500 truncate border-t pt-1 italic">
           <span className="font-bold text-gray-700">{pedido.solicitante}</span> • {pedido.setor}
@@ -41,4 +46,14 @@ export function KanbanCard({ pedido, isAdmin = false, commentCount = 0, isDraggi
       </div>
     </div>
   )
+
+  if (isAdmin) {
+    return (
+      <Link href={`/admin/dashboard/pedidos/${pedido.id}`} onClick={(e) => e.stopPropagation()}>
+        {cardContent}
+      </Link>
+    )
+  }
+
+  return cardContent
 }
