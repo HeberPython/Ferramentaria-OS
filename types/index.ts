@@ -19,10 +19,15 @@ export interface Pedido {
   status: StatusPedido;
   urgencia: Urgencia;
   prazo: string;
-  prazo_definido?: boolean; // ADICIONADO: O campo que causou o erro 14:15
-  descricao?: string;      // Adicionado preventivamente
+  prazo_definido?: boolean;
+  prazo_desejado?: string; // CAMPO DO ERRO ATUAL
+  descricao?: string;
+  especificacoes?: string;
+  tags?: string[];
+  anexos?: any[];
+  responsavel_id?: string;
   criado_em: string;
-  updated_at?: string;     // Adicionado preventivamente
+  updated_at?: string;
 }
 
 export interface Usuario {
