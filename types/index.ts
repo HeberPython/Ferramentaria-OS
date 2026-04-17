@@ -12,44 +12,11 @@ export type RoleUsuario = 'admin' | 'editor'
 export interface Pedido {
   id: string;
   titulo: string;
-  solicitante: string; // Verifique se esta linha existe
+  solicitante: string;
   setor: string;
-  status: string;
-  urgencia: string;
+  status: StatusPedido; // Ajustado de string para StatusPedido
+  urgencia: Urgencia;    // Ajustado de string para Urgencia
   prazo: string;
+  criado_em: string;
 }
-
-export interface Usuario {
-  id: string
-  nome: string
-  email: string
-  role: RoleUsuario
-  ativo: boolean
-  criado_em: string
-}
-
-export interface HistoricoStatus {
-  id: string
-  pedido_id: string
-  status_anterior?: string
-  status_novo: string
-  observacao?: string
-  usuario_nome?: string
-  criado_em: string
-}
-
-export interface Comentario {
-  id: string
-  pedido_id: string
-  usuario_nome: string
-  conteudo: string
-  interno: boolean
-  criado_em: string
-}
-
-export interface JWTPayload {
-  id: string
-  email: string
-  nome: string
-  role: RoleUsuario
-}
+// Mantenha o restante das interfaces (Usuario, Historico, etc) como estão
