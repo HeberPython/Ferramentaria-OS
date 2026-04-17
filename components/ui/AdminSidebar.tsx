@@ -56,9 +56,11 @@ export function AdminSidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const [loggingOut, setLoggingOut] = useState(false)
-  const [isOpen, setIsOpen] = useState(false) // Estado para abrir/fechar o menu
 
-  // Fecha o menu automaticamente quando você clica em um link (no celular)
+  const isKanban = pathname === '/admin/dashboard/kanban'
+  const [isOpen, setIsOpen] = useState(false)
+
+  // Fecha o menu ao trocar de página
   useEffect(() => {
     setIsOpen(false)
   }, [pathname])
@@ -72,26 +74,26 @@ export function AdminSidebar() {
 
   return (
     <>
-      {/* Botão de Menu para Celular */}
-      <button 
+      {/* Botão hamburguer — sempre visível, posição fixa */}
+      <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 left-4 z-50 p-2 bg-gray-900 text-white rounded-lg md:hidden shadow-lg border border-gray-700"
+        className="fixed top-4 left-4 z-50 p-2 bg-gray-900 text-white rounded-lg shadow-lg border border-gray-700"
       >
         {isOpen ? (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         ) : (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         )}
       </button>
 
-      {/* Overlay (Escurece o fundo quando o menu abre no celular) */}
+      {/* Overlay */}
       {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+        <div
+          className="fixed inset-0 bg-black/50 z-40"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -100,7 +102,7 @@ export function AdminSidebar() {
       <aside className={`
         fixed left-0 top-0 h-full w-64 bg-gray-900 flex flex-col z-40
         transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         {/* Logo */}
         <div className="px-6 py-5 border-b border-gray-700">
