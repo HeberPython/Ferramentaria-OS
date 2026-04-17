@@ -6,27 +6,22 @@ import { KanbanCard } from './KanbanCard'
 
 export function KanbanBoard({ pedidos = [] }: { pedidos: Pedido[] }) {
   return (
-    <div className="w-full bg-gray-50/50 rounded-xl overflow-hidden">
-      {/* 75vw permite ver a coluna seguinte no celular */}
-      <div className="flex gap-4 overflow-x-auto p-4 snap-x snap-mandatory scroll-smooth no-scrollbar min-h-[500px]">
+    <div className="w-full bg-gray-50/50 rounded-xl overflow-x-auto no-scrollbar">
+      <div className="flex gap-4 p-4 snap-x snap-mandatory">
         {STATUS_ORDER.map((status) => {
           const statusPedidos = pedidos.filter((p) => p.status === status);
           const config = STATUS_CONFIG[status];
 
           return (
-            <div key={status} className="flex-shrink-0 w-[75vw] md:w-[300px] flex flex-col snap-center">
+            <div key={status} className="flex-shrink-0 w-[75vw] md:w-[300px] snap-center">
               <div className={`rounded-t-lg px-3 py-2 border-t border-x ${config.border} ${config.bg} flex justify-between items-center`}>
                 <span className={`text-sm font-bold ${config.color}`}>{config.label}</span>
-                <span className="text-xs bg-white px-2 rounded-full border shadow-sm font-bold">
-                  {statusPedidos.length}
-                </span>
+                <span className="text-xs bg-white px-2 rounded-full border font-bold">{statusPedidos.length}</span>
               </div>
-              <div className={`flex-1 rounded-b-lg border-x border-b ${config.border} bg-white/50 p-2 min-h-[400px]`}>
-                <div className="flex flex-col gap-3">
-                  {statusPedidos.map((pedido) => (
-                    <KanbanCard key={pedido.id} pedido={pedido} />
-                  ))}
-                </div>
+              <div className={`rounded-b-lg border-x border-b ${config.border} bg-white/50 p-2 min-h-[400px] flex flex-col gap-2`}>
+                {statusPedidos.map((pedido) => (
+                  <KanbanCard key={pedido.id} pedido={pedido} />
+                ))}
               </div>
             </div>
           );
