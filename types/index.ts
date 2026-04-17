@@ -10,24 +10,28 @@ export type Urgencia = 'normal' | 'alta' | 'urgente'
 export type RoleUsuario = 'admin' | 'editor'
 
 export interface Pedido {
-  id: string;
-  numero?: number;
-  titulo: string;
-  solicitante: string;
-  setor: string;
-  tipo_servico?: string;
-  status: StatusPedido;
-  urgencia: Urgencia;
-  prazo: string;
-  prazo_definido?: boolean;
-  prazo_desejado?: string; // CAMPO DO ERRO ATUAL
-  descricao?: string;
-  especificacoes?: string;
-  tags?: string[];
-  anexos?: any[];
-  responsavel_id?: string;
-  criado_em: string;
-  updated_at?: string;
+  id: string
+  numero?: number
+  token_acompanhamento?: string
+  titulo?: string
+  solicitante: string
+  email_contato?: string
+  telefone?: string
+  setor: string
+  tipo_servico?: string
+  status: StatusPedido
+  urgencia: Urgencia
+  prazo?: string
+  prazo_definido?: string
+  prazo_desejado?: string
+  descricao?: string
+  especificacoes?: string
+  tags?: string[]
+  anexos?: any[]
+  responsavel_id?: string
+  responsavel?: Usuario
+  criado_em: string
+  updated_at?: string
 }
 
 export interface Usuario {
