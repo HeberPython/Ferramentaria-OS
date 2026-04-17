@@ -204,7 +204,7 @@ export default async function AcompanharPage({
           <EditarPedido
             pedidoId={pedido.id}
             token={params.token}
-            descricaoAtual={pedido.descricao}
+            descricaoAtual={pedido.descricao || ''}
             telefoneAtual={pedido.telefone || ''}
             prazoDesejadoAtual={pedido.prazo_desejado || ''}
           />
