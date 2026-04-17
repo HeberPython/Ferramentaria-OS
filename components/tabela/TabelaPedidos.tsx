@@ -48,7 +48,7 @@ export function TabelaPedidos({ pedidos: pedidosIniciais }: TabelaPedidosProps) 
         (p) =>
           p.solicitante.toLowerCase().includes(q) ||
           p.setor.toLowerCase().includes(q) ||
-          p.descricao.toLowerCase().includes(q) ||
+          (p.descricao || '').toLowerCase().includes(q) ||
           String(p.numero).includes(q)
       )
     }

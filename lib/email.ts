@@ -85,7 +85,7 @@ export async function enviarConfirmacaoPedido(pedido: Pedido): Promise<void> {
 
     <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:24px;">
       ${cardInfo('Setor', pedido.setor)}
-      ${cardInfo('Tipo de Serviço', pedido.tipo_servico)}
+      ${cardInfo('Tipo de Serviço', pedido.tipo_servico || '')}
       ${cardInfo('Urgência', pedido.urgencia === 'urgente' ? '🔴 Urgente' : pedido.urgencia === 'alta' ? '🟡 Alta' : '🟢 Normal')}
       ${cardInfo('Data de abertura', formatarData(pedido.criado_em))}
       ${pedido.prazo_desejado ? cardInfo('Prazo desejado', new Date(pedido.prazo_desejado + 'T12:00:00').toLocaleDateString('pt-BR')) : ''}
@@ -109,7 +109,7 @@ export async function enviarConfirmacaoPedido(pedido: Pedido): Promise<void> {
 
   await resend.emails.send({
     from: EMAIL_FROM,
-    to: pedido.email_contato,
+    to: pedido.email_contato || '',
     subject: `[Ferramentaria OS] Pedido #${String(pedido.numero).padStart(4, '0')} recebido — ${pedido.tipo_servico}`,
     html: templateBase(`Confirmação — Pedido #${String(pedido.numero).padStart(4, '0')}`, conteudo),
   })
@@ -167,7 +167,7 @@ export async function enviarNotificacaoStatus(
 
   await resend.emails.send({
     from: EMAIL_FROM,
-    to: pedido.email_contato,
+    to: pedido.email_contato || '',
     subject: `[Ferramentaria OS] Pedido #${String(pedido.numero).padStart(4, '0')} — Status: ${configNovo.label}`,
     html: templateBase(`Atualização de Status — Pedido #${String(pedido.numero).padStart(4, '0')}`, conteudo),
   })
@@ -307,7 +307,7 @@ export async function enviarNotificacaoAdmin(pedido: Pedido): Promise<void> {
     <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:24px;">
       ${cardInfo('Solicitante', pedido.solicitante)}
       ${cardInfo('Setor', pedido.setor)}
-      ${cardInfo('E-mail', pedido.email_contato)}
+      ${cardInfo('E-mail', pedido.email_contato || '')}
       ${pedido.telefone ? cardInfo('Telefone', pedido.telefone) : ''}
       ${cardInfo('Tipo de Serviço', pedido.tipo_servico)}
       ${cardInfo('Urgência', pedido.urgencia === 'urgente' ? '🔴 URGENTE' : pedido.urgencia === 'alta' ? '🟡 Alta' : '🟢 Normal')}
