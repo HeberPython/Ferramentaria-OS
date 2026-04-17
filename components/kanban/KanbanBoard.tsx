@@ -1,6 +1,7 @@
-import { Pedido, StatusPedido } from '@/types'
-import { STATUS_ORDER } from '@/lib/constants'
-import { KanbanColumn } from './KanbanColumn'
+'use client'
+
+import { Pedido } from '@/types'
+import { STATUS_CONFIG, STATUS_ORDER } from '@/lib/constants'
 import { KanbanCard } from './KanbanCard'
 
 interface KanbanBoardProps {
@@ -8,17 +9,9 @@ interface KanbanBoardProps {
 }
 
 export function KanbanBoard({ pedidos }: KanbanBoardProps) {
-  const pedidosPorStatus = STATUS_ORDER.reduce<Record<StatusPedido, Pedido[]>>(
-    (acc, status) => {
-      acc[status] = pedidos.filter((p) => p.status === status)
-      return acc
-    },
-    {} as Record<StatusPedido, Pedido[]>
-  )
-
- return (
+  return (
     <div className="flex flex-col h-full bg-gray-50/50 rounded-xl border border-gray-200 shadow-inner overflow-hidden">
-      {/* TRILHO ÚNICO: Agora tudo (Títulos + Cards) rola junto neste contêiner */}
+      {/* TRILHO ÚNICO: Títulos + Cards rolam juntos aqui */}
       <div className="flex gap-4 overflow-x-auto p-4 snap-x snap-mandatory scroll-smooth no-scrollbar">
         {STATUS_ORDER.map((status) => {
           const statusPedidos = pedidos.filter((p) => p.status === status);
@@ -27,10 +20,9 @@ export function KanbanBoard({ pedidos }: KanbanBoardProps) {
           return (
             <div 
               key={status} 
-              // w-[80vw] garante que a coluna ocupe 80% da tela do celular, deixando ver a próxima
               className="flex-shrink-0 w-[80vw] md:w-[300px] flex flex-col snap-center"
             >
-              {/* Cabeçalho da Coluna (Soldado no topo da coluna) */}
+              {/* Cabeçalho da Coluna */}
               <div className={`rounded-t-lg px-3 py-2 border-t border-x ${config.border} ${config.bg} flex justify-between items-center`}>
                 <span className={`text-sm font-bold ${config.color}`}>{config.label}</span>
                 <span className="text-xs bg-white px-2 rounded-full border shadow-sm">
@@ -58,3 +50,4 @@ export function KanbanBoard({ pedidos }: KanbanBoardProps) {
       </div>
     </div>
   );
+}
