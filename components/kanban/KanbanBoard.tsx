@@ -23,7 +23,7 @@ export function KanbanBoard({ pedidos = [] }: KanbanBoardProps) {
           return (
             <div 
               key={status} 
-              className="flex-shrink-0 w-[85vw] md:w-[300px] flex flex-col snap-center h-fit"
+              className="flex-shrink-0 w-[75vw] md:w-[300px] flex flex-col snap-center h-fit"
             >
               {/* Título da Coluna */}
               <div className={`rounded-t-lg px-3 py-2 border-t border-x ${config.border} ${config.bg} flex justify-between items-center`}>
