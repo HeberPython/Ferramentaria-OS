@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
     'Prazo Definido': p.prazo_definido ? new Date(p.prazo_definido + 'T12:00:00').toLocaleDateString('pt-BR') : '',
     'Responsável': p.responsavel?.nome || '',
     'Descrição': p.descricao,
-    'Última Atualização': new Date(p.atualizado_em).toLocaleDateString('pt-BR'),
+    'Última Atualização': p.atualizado_em ? new Date(p.atualizado_em).toLocaleDateString('pt-BR') : '',
   }))
 
   if (formato === 'csv') {
