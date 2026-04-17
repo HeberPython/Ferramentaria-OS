@@ -37,11 +37,9 @@ export async function GET(request: NextRequest) {
   }
 
   const { data, error } = await query
-
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
-
   return NextResponse.json({ pedidos: data })
 }
 
@@ -49,6 +47,9 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const parsed = schemaCriar.safeParse(body)
+
+    console.log('BODY RECEBIDO:', JSON.stringify(body))
+    console.log('ERRO VALIDAÇÃO:', JSON.stringify(parsed.error?.errors))
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -69,7 +70,6 @@ export async function POST(request: NextRequest) {
 
     const pedido = data as Pedido
 
-    // Registrar histórico inicial
     await supabaseServer.from('historico_status').insert([{
       pedido_id: pedido.id,
       status_anterior: null,
@@ -78,14 +78,18 @@ export async function POST(request: NextRequest) {
       usuario_nome: pedido.solicitante,
     }])
 
-    // Enviar e-mails em background (sem await para não bloquear)
     try {
+      console.log('Enviando e-mail confirmação para:', pedido.email_contato)
       await enviarConfirmacaoPedido(pedido)
+      console.log('E-mail confirmação enviado com sucesso!')
     } catch (emailErr) {
       console.error('Erro ao enviar e-mail de confirmação:', emailErr)
     }
+
     try {
+      console.log('Enviando e-mail admin para:', process.env.EMAIL_ADMIN)
       await enviarNotificacaoAdmin(pedido)
+      console.log('E-mail admin enviado com sucesso!')
     } catch (emailErr) {
       console.error('Erro ao enviar e-mail admin:', emailErr)
     }
