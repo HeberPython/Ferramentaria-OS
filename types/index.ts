@@ -32,6 +32,7 @@ export interface Pedido {
   responsavel?: Usuario
   criado_em: string
   updated_at?: string
+  atualizado_em?: string
 }
 
 export interface Usuario {
