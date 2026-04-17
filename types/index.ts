@@ -33,6 +33,7 @@ export interface Pedido {
   criado_em: string
   updated_at?: string
   atualizado_em?: string
+observacoes_internas?: string
 }
 
 export interface Usuario {
