@@ -1,24 +1,25 @@
+'use client'
+
 import Link from 'next/link'
-import { supabaseServer } from '@/lib/supabase-server'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { KanbanBoard } from '@/components/kanban/KanbanBoard'
 import { Pedido, StatusPedido } from '@/types'
 import { STATUS_CONFIG, STATUS_ORDER } from '@/lib/constants'
 
-async function getPedidos(): Promise<Pedido[]> {
-  const { data, error } = await supabaseServer
-    .from('pedidos')
-    .select('*, responsavel:usuarios(id, nome, email, role, ativo, criado_em)')
-    .not('status', 'eq', 'cancelado')
-    .order('criado_em', { ascending: false })
+export default function HomePage() {
+  const router = useRouter()
+  const [pedidos, setPedidos] = useState<Pedido[]>([])
+  const [showModal, setShowModal] = useState(false)
+  const [numeroPedido, setNumeroPedido] = useState('')
+  const [erro, setErro] = useState('')
+  const [buscando, setBuscando] = useState(false)
 
-  if (error) return []
-  return data as Pedido[]
-}
-
-export const revalidate = 30
-
-export default async function HomePage() {
-  const pedidos = await getPedidos()
+  useEffect(() => {
+    fetch('/api/pedidos/publicos')
+      .then((r) => r.json())
+      .then((d) => setPedidos(d.pedidos || []))
+  }, [])
 
   const contagemPorStatus = STATUS_ORDER.reduce<Record<StatusPedido, number>>(
     (acc, status) => {
@@ -29,6 +30,28 @@ export default async function HomePage() {
   )
 
   const totalAtivos = pedidos.length
+
+  async function buscarPedido() {
+    if (!numeroPedido.trim()) {
+      setErro('Digite o número do pedido.')
+      return
+    }
+    setBuscando(true)
+    setErro('')
+    try {
+      const res = await fetch(`/api/pedidos/buscar-publico?numero=${numeroPedido.trim()}`)
+      const data = await res.json()
+      if (!res.ok || !data.token) {
+        setErro('Pedido não encontrado. Verifique o número.')
+        return
+      }
+      router.push(`/acompanhar/${data.token}`)
+    } catch {
+      setErro('Erro ao buscar pedido.')
+    } finally {
+      setBuscando(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -46,12 +69,12 @@ export default async function HomePage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Link
-              href="/solicitar"
+            <button
+              onClick={() => { setShowModal(true); setErro(''); setNumeroPedido('') }}
               className="text-sm text-gray-600 hover:text-gray-900 font-medium hidden sm:block"
             >
               Acompanhar pedido
-            </Link>
+            </button>
             <Link
               href="/solicitar"
               className="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
@@ -119,6 +142,44 @@ export default async function HomePage() {
           <Link href="/admin" className="hover:text-gray-200 transition-colors">Acesso Admin</Link>
         </div>
       </footer>
+
+      {/* Modal Acompanhar Pedido */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6">
+            <h3 className="text-lg font-bold text-gray-900 mb-1">Acompanhar Pedido</h3>
+            <p className="text-sm text-gray-500 mb-4">Digite o número do pedido para ver os detalhes e o status atual.</p>
+
+            <input
+              type="number"
+              value={numeroPedido}
+              onChange={(e) => setNumeroPedido(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && buscarPedido()}
+              placeholder="Ex: 0001"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 mb-2"
+              autoFocus
+            />
+
+            {erro && <p className="text-red-600 text-xs mb-3">{erro}</p>}
+
+            <div className="flex gap-3 mt-2">
+              <button
+                onClick={() => setShowModal(false)}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={buscarPedido}
+                disabled={buscando}
+                className="flex-1 px-4 py-2 bg-brand-600 hover:bg-brand-700 rounded-lg text-sm font-medium text-white disabled:opacity-50"
+              >
+                {buscando ? 'Buscando...' : 'Buscar'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
