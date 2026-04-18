@@ -10,7 +10,7 @@ import {
   useSensor,
   useSensors,
   DragOverlay,
-  closestCorners,
+  closestCenter,
   useDroppable,
 } from '@dnd-kit/core'
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
@@ -23,49 +23,84 @@ interface KanbanBoardAdminProps {
   pedidosIniciais: Pedido[]
 }
 
-function SortableItem({ pedido }: { pedido: Pedido }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: pedido.id,
-    data: { type: 'card', pedido }
-  })
+function SortableKanbanCard({ pedido }: { pedido: Pedido }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: pedido.id, data: { type: 'card', pedido } })
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    zIndex: isDragging ? 50 : undefined,
   }
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="touch-none">
-      <KanbanCard pedido={pedido} isAdmin isDragging={isDragging} />
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="touch-none"
+    >
+      <KanbanCard
+        pedido={pedido}
+        isAdmin
+        isDragging={isDragging}
+      />
     </div>
   )
 }
 
-function Column({ status, pedidos }: { status: StatusPedido; pedidos: Pedido[] }) {
+function DroppableColumn({
+  status,
+  pedidos,
+}: {
+  status: StatusPedido
+  pedidos: Pedido[]
+}) {
   const { setNodeRef, isOver } = useDroppable({
     id: status,
     data: { type: 'column', status },
   })
+
   const config = STATUS_CONFIG[status]
 
   return (
-    <div className="flex flex-col w-[80vw] md:w-[300px] flex-shrink-0 snap-center">
-      <div className={`rounded-t-lg px-3 py-2 border-t border-x ${config.border} ${config.bg} flex justify-between items-center`}>
-        <span className={`text-sm font-bold ${config.color}`}>{config.label}</span>
-        <span className="text-xs bg-white px-2 rounded-full border">{pedidos.length}</span>
+    <div className="flex flex-col min-w-[240px] w-full">
+      <div className={`rounded-t-lg px-3 py-2.5 border ${config.border} ${config.bg} flex items-center justify-between`}>
+        <div className="flex items-center gap-2">
+          <span className={`w-2 h-2 rounded-full ${config.dot}`} />
+          <span className={`text-sm font-semibold ${config.color}`}>{config.label}</span>
+        </div>
+        <span className={`text-xs font-bold ${config.color} bg-white rounded-full w-5 h-5 flex items-center justify-center border ${config.border}`}>
+          {pedidos.length}
+        </span>
       </div>
+
       <div
         ref={setNodeRef}
-        className={`flex-1 rounded-b-lg border-x border-b ${config.border} p-2 min-h-[500px] transition-colors ${
+        className={`flex-1 rounded-b-lg border-x border-b ${config.border} p-2 min-h-[200px] space-y-2 transition-colors ${
           isOver ? 'bg-blue-50' : 'bg-gray-50'
         }`}
       >
-        <SortableContext items={pedidos.map(p => p.id)} strategy={verticalListSortingStrategy}>
-          <div className="space-y-2 h-full">
-            {pedidos.map(p => <SortableItem key={p.id} pedido={p} />)}
-          </div>
+        <SortableContext
+          items={pedidos.map((p) => p.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {pedidos.map((pedido) => (
+            <SortableKanbanCard key={pedido.id} pedido={pedido} />
+          ))}
         </SortableContext>
+
+        {pedidos.length === 0 && (
+          <div className="flex items-center justify-center h-16 text-gray-400 text-xs border-2 border-dashed border-gray-200 rounded-lg">
+            Solte aqui
+          </div>
+        )}
       </div>
     </div>
   )
@@ -74,24 +109,66 @@ function Column({ status, pedidos }: { status: StatusPedido; pedidos: Pedido[] }
 export function KanbanBoardAdmin({ pedidosIniciais }: KanbanBoardAdminProps) {
   const [pedidos, setPedidos] = useState<Pedido[]>(pedidosIniciais)
   const [activePedido, setActivePedido] = useState<Pedido | null>(null)
+  const [savingStatus, setSavingStatus] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const sensors = useSensors(
-    useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } })
+    useSensor(MouseSensor, {
+      activationConstraint: { distance: 8 },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 200, tolerance: 8 },
+    })
   )
+
+  const pedidosPorStatus = STATUS_ORDER.reduce<Record<StatusPedido, Pedido[]>>(
+    (acc, status) => {
+      acc[status] = pedidos.filter((p) => p.status === status)
+      return acc
+    },
+    {} as Record<StatusPedido, Pedido[]>
+  )
+
+  function handleDragStart(event: DragStartEvent) {
+    const pedido = pedidos.find((p) => p.id === event.active.id)
+    if (pedido) setActivePedido(pedido)
+  }
 
   async function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
     setActivePedido(null)
+
     if (!over) return
 
-    const pedidoMovido = pedidos.find(p => p.id === active.id)
+    const pedidoMovido = pedidos.find((p) => p.id === active.id)
     if (!pedidoMovido) return
 
-    const novoStatus = (over.data.current?.status || over.id) as StatusPedido
-    if (!STATUS_ORDER.includes(novoStatus) || novoStatus === pedidoMovido.status) return
+    const overData = over.data.current as
+      | { type: 'column'; status: StatusPedido }
+      | { type: 'card'; pedido: Pedido }
+      | undefined
 
-    setPedidos(prev => prev.map(p => p.id === pedidoMovido.id ? { ...p, status: novoStatus } : p))
+    let novoStatus: StatusPedido | undefined
+
+    if (overData?.type === 'column') {
+      novoStatus = overData.status
+    } else if (overData?.type === 'card') {
+      novoStatus = overData.pedido.status
+    } else if (STATUS_ORDER.includes(over.id as StatusPedido)) {
+      novoStatus = over.id as StatusPedido
+    }
+
+    if (!novoStatus || novoStatus === pedidoMovido.status) return
+
+    // Atualiza localmente imediato
+    setPedidos((prev) =>
+      prev.map((p) =>
+        p.id === pedidoMovido.id ? { ...p, status: novoStatus! } : p
+      )
+    )
+
+    setSavingStatus(true)
+    setError(null)
 
     try {
       const res = await fetch(`/api/pedidos/${pedidoMovido.id}/status`, {
@@ -99,35 +176,68 @@ export function KanbanBoardAdmin({ pedidosIniciais }: KanbanBoardAdminProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: novoStatus }),
       })
-      if (!res.ok) throw new Error()
-    } catch {
-      setPedidos(prev => prev.map(p => p.id === pedidoMovido.id ? { ...p, status: pedidoMovido.status } : p))
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Erro ao atualizar status')
+      }
+
+      const { pedido: pedidoAtualizado } = await res.json()
+      setPedidos((prev) =>
+        prev.map((p) => (p.id === pedidoAtualizado.id ? pedidoAtualizado : p))
+      )
+    } catch (err) {
+      // Reverte se der erro
+      setPedidos((prev) =>
+        prev.map((p) =>
+          p.id === pedidoMovido.id ? { ...p, status: pedidoMovido.status } : p
+        )
+      )
+      setError(err instanceof Error ? err.message : 'Erro desconhecido')
+    } finally {
+      setSavingStatus(false)
     }
   }
 
   return (
-    <DndContext 
-      sensors={sensors} 
-      collisionDetection={closestCorners} 
-      onDragStart={(e) => setActivePedido(pedidos.find(p => p.id === e.active.id) || null)}
-      onDragEnd={handleDragEnd}
-    >
-      <div className="flex gap-4 overflow-x-auto pb-10 snap-x snap-mandatory scroll-smooth no-scrollbar">
-        {STATUS_ORDER.map(status => (
-          <Column 
-            key={status} 
-            status={status} 
-            pedidos={pedidos.filter(p => p.status === status)} 
-          />
-        ))}
-      </div>
-      <DragOverlay>
-        {activePedido ? (
-          <div className="opacity-80 rotate-3 scale-105">
-            <KanbanCard pedido={activePedido} isAdmin />
-          </div>
-        ) : null}
-      </DragOverlay>
-    </DndContext>
+    <>
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 flex justify-between">
+          {error}
+          <button className="underline ml-2" onClick={() => setError(null)}>fechar</button>
+        </div>
+      )}
+
+      {savingStatus && (
+        <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-700">
+          Salvando...
+        </div>
+      )}
+
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <div className="flex gap-3 overflow-x-auto pb-6">
+          {STATUS_ORDER.map((status) => (
+            <DroppableColumn
+              key={status}
+              status={status}
+              pedidos={pedidosPorStatus[status]}
+            />
+          ))}
+        </div>
+
+        <DragOverlay>
+          {activePedido ? (
+            <div className="rotate-2 opacity-90 w-60">
+              <KanbanCard pedido={activePedido} isAdmin isDragging={false} />
+            </div>
+          ) : null}
+        </DragOverlay>
+      </DndContext>
+    </>
   )
 }
